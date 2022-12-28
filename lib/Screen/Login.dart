@@ -377,11 +377,11 @@ class _LoginPageState extends State<Login> with TickerProviderStateMixin {
         },
         decoration: InputDecoration(
           prefixIcon: Icon(
-            Icons.phone_android,
+            Icons.person_outline,
             color: Theme.of(context).colorScheme.fontColor,
             size: 20,
           ),
-          hintText: getTranslated(context, 'MOBILEHINT_LBL'),
+          hintText: 'User ID',
           hintStyle: Theme.of(context).textTheme.subtitle2!.copyWith(
               color: Theme.of(context).colorScheme.fontColor,
               fontWeight: FontWeight.normal),
