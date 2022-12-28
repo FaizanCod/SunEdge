@@ -22,17 +22,23 @@ class _SignInUpAccState extends State<SignInUpAcc> {
   _subLogo() {
     return Padding(
         padding: const EdgeInsetsDirectional.only(top: 30.0),
-        child: SvgPicture.asset(
-          'assets/images/homelogo.svg',
-          color: colors.primary,
-        ));
+        child: Image.asset(
+          'assets/images/logo1.png',
+          height: 200,
+          width: 200,
+        )
+        // SvgPicture.asset(
+        //   'assets/images/titleicon.svg',
+        //   color: colors.primary,
+        // )
+      );
   }
 
   welcomeEshopTxt() {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 30.0),
       child: Text(
-        getTranslated(context, 'WELCOME_ESHOP')!,
+        'Welcome to Sun Edge',
         style: Theme.of(context).textTheme.subtitle1!.copyWith(
             color: Theme.of(context).colorScheme.fontColor,
             fontWeight: FontWeight.bold),
