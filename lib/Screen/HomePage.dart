@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-
 import 'package:eshop/Helper/ApiBaseHelper.dart';
 import 'package:eshop/ui/widgets/AppBtn.dart';
 
@@ -84,8 +83,6 @@ class _HomePageState extends State<HomePage>
   List<String> proIds1 = [];
   List<Product> mostFavProList = [];
 
-
-
   @override
   bool get wantKeepAlive => true;
 
@@ -148,12 +145,12 @@ class _HomePageState extends State<HomePage>
                   child: Column(
                     children: [
                       _deliverPincode(),
+                      _userDashboard(),
                       _getSearchBar(),
                       _catList(),
                       _slider(),
                       _section(),
                       _mostLike(),
-
                     ],
                   ),
                 ))
@@ -183,7 +180,6 @@ class _HomePageState extends State<HomePage>
                   SizedBox(
                     height: height,
                     width: double.infinity,
-
                     child: PageView.builder(
                       itemCount: homeSliderList.length,
                       scrollDirection: Axis.horizontal,
@@ -306,7 +302,6 @@ class _HomePageState extends State<HomePage>
                   ],
                 ),
               ),
-
             ],
           )
         : Container();
@@ -328,7 +323,7 @@ class _HomePageState extends State<HomePage>
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20)),
-                    color: colors.yellow,
+                    color: Colors.yellow,
                   ),
                   padding: const EdgeInsetsDirectional.only(
                       start: 12, bottom: 3, top: 3, end: 12),
@@ -446,7 +441,6 @@ class _HomePageState extends State<HomePage>
   }*/
 
   _getSection(int i) {
-
     var orient = MediaQuery.of(context).orientation;
 
     return sectionList[i].style == DEFAULT
@@ -842,13 +836,12 @@ class _HomePageState extends State<HomePage>
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5)),
                     child: Hero(
-                      transitionOnUserGestures: true,
-                      tag: "$homeHero$index${product.id}$secPos",
-                      child: networkImageCommon(
-                          product.image!, width, false,
-                          height: double.maxFinite,
-                          width: double
-                              .maxFinite)/*CachedNetworkImage(
+                        transitionOnUserGestures: true,
+                        tag: "$homeHero$index${product.id}$secPos",
+                        child: networkImageCommon(product.image!, width, false,
+                            height: double.maxFinite,
+                            width: double
+                                .maxFinite) /*CachedNetworkImage(
                           fadeInDuration: const Duration(milliseconds: 150),
                           imageUrl: product.image!,
                           height: double.maxFinite,
@@ -860,7 +853,7 @@ class _HomePageState extends State<HomePage>
                           placeholder: (context, url) {
                             return placeHolder(width);
                           }),*/
-                    )),
+                        )),
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.only(
@@ -1335,14 +1328,13 @@ class _HomePageState extends State<HomePage>
                                         ],
                                       ),
                                       child: CircleAvatar(
-                                        radius: 32.0,
-                                        backgroundColor:
-                                            Theme.of(context).colorScheme.white,
-                                        child: networkImageCommon(
-                                            catList[index].image!,
-                                           50,
-                                            false)
-                                        /*CachedNetworkImage(
+                                          radius: 32.0,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .white,
+                                          child: networkImageCommon(
+                                              catList[index].image!, 50, false)
+                                          /*CachedNetworkImage(
                                             fadeInDuration: const Duration(
                                                 milliseconds: 150),
                                             imageUrl: catList[index].image!,
@@ -1353,7 +1345,7 @@ class _HomePageState extends State<HomePage>
                                             placeholder: (context, url) {
                                               return placeHolder(50);
                                             }),*/
-                                      ))),
+                                          ))),
                               SizedBox(
                                 width: 50,
                                 child: Text(
@@ -1468,7 +1460,7 @@ class _HomePageState extends State<HomePage>
     }
   }
 
- /* void getOfferImages() {
+  /* void getOfferImages() {
     try {
       Map parameter = {};
 
@@ -1548,7 +1540,7 @@ class _HomePageState extends State<HomePage>
             getSlider();
             getCat();
             getSection();
-          //  getOfferImages();
+            //  getOfferImages();
 
             proIds = (await db.getMostLike())!;
             getMostLikePro();
@@ -1579,9 +1571,6 @@ class _HomePageState extends State<HomePage>
           ADMIN_MOB = data[SUPPORT_NUM];
           // IS_SHIPROCKET_ON=getdata["data"]["shipping_method"][0]["shiprocket_shipping_method"];
           // IS_LOCAL_ON=getdata["data"]["shipping_method"][0]["local_shipping_method"];
-
-
-
 
           ALLOW_ATT_MEDIA = data[ALLOW_ATTACH];
 
@@ -1661,7 +1650,6 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> getMostLikePro() async {
-
     if (proIds.isNotEmpty) {
       _isNetworkAvail = await isNetworkAvailable();
 
@@ -1669,10 +1657,8 @@ class _HomePageState extends State<HomePage>
         try {
           var parameter = {"product_ids": proIds.join(',')};
 
-
           apiBaseHelper.postAPICall(getProductApi, parameter).then(
               (getdata) async {
-
             bool error = getdata["error"];
             if (!error) {
               var data = getdata["data"];
@@ -1681,8 +1667,6 @@ class _HomePageState extends State<HomePage>
                   (data as List).map((data) => Product.fromJson(data)).toList();
               mostLikeProList.clear();
               mostLikeProList.addAll(tempList);
-
-
 
               context.read<ProductProvider>().setProductList(mostLikeProList);
             }
@@ -1715,7 +1699,6 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> getMostFavPro() async {
-
     if (proIds1.isNotEmpty) {
       _isNetworkAvail = await isNetworkAvailable();
 
@@ -1723,10 +1706,8 @@ class _HomePageState extends State<HomePage>
         try {
           var parameter = {"product_ids": proIds1.join(',')};
 
-
           apiBaseHelper.postAPICall(getProductApi, parameter).then(
               (getdata) async {
-
             bool error = getdata["error"];
             if (!error) {
               var data = getdata["data"];
@@ -1735,10 +1716,6 @@ class _HomePageState extends State<HomePage>
                   (data as List).map((data) => Product.fromJson(data)).toList();
               mostFavProList.clear();
               mostFavProList.addAll(tempList);
-
-
-
-
             }
             if (mounted) {
               setState(() {
@@ -1894,7 +1871,11 @@ class _HomePageState extends State<HomePage>
       if (_isNetworkAvail) {
         if (CUR_USERID != null) {
           try {
-            var parameter = {USER_ID: CUR_USERID, SAVE_LATER: save,"only_delivery_charge": "0", };
+            var parameter = {
+              USER_ID: CUR_USERID,
+              SAVE_LATER: save,
+              "only_delivery_charge": "0",
+            };
             apiBaseHelper.postAPICall(getCartApi, parameter).then((getdata) {
               bool error = getdata["error"];
               String? msg = getdata["message"];
@@ -2009,8 +1990,6 @@ class _HomePageState extends State<HomePage>
                   url = iosLink;
                 }
 
-
-
                 if (await canLaunchUrl(Uri.parse(url))) {
                   await launchUrl(Uri.parse(url),
                       mode: LaunchMode.externalApplication);
@@ -2059,11 +2038,8 @@ class _HomePageState extends State<HomePage>
     double height = deviceWidth! / 0.5;
 
     return InkWell(
-      child: networkImageCommon(
-          slider.image!, height, false,
-          height: height,
-          width: double
-              .maxFinite)
+      child: networkImageCommon(slider.image!, height, false,
+          height: height, width: double.maxFinite)
       /* CachedNetworkImage(
           fadeInDuration: const Duration(milliseconds: 150),
           imageUrl: slider.image!,
@@ -2080,7 +2056,8 @@ class _HomePageState extends State<HomePage>
             return Image.asset(
               "${imagePath}Placeholder_Rectangle.png",
             );
-          })*/,
+          })*/
+      ,
       onTap: () async {
         int curSlider = context.read<HomeProvider>().curSlider;
 
@@ -2282,6 +2259,413 @@ class _HomePageState extends State<HomePage>
             ));
         if (mounted) setState(() {});
       },
+    );
+  }
+
+  Widget _userDashboard() {
+    return Container(
+      margin: EdgeInsets.only(top: 8, bottom: 15),
+      child: Column(
+        children: <Widget>[
+          // SizedBox(
+          //   height: 8,
+          // ),
+          Divider(
+            height: 5,
+            color: Colors.grey[300],
+            thickness: 8,
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            child: Column(
+              children: [
+                Image.asset('assets/images/user.png', height: 50, width: 50, color: Colors.grey[500],),
+                SizedBox(
+                  height: 15,
+                ),
+                Text('AMOL PARAKH', style: TextStyle(fontSize: 16)),
+                Text(
+                  'Diamond Director-50155353',
+                  style: TextStyle(fontSize: 11),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'Last Month Level',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          'Non Qualified Director',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                    // SizedBox(width: 50),
+                    Column(
+                      children: [
+                        Text(
+                          'Next Level',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          'Crown Director',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 14),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'MY PV',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          '0',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    // SizedBox(width: 10),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'GROUP PV',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff1b7b41),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          '0',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff1b7b41),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // SizedBox(width: 33),
+                    // VerticalDivider(),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'MY NETWORK',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.yellow[800],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          '2,773',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.yellow[800],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 14),
+                Container(
+                    width: MediaQuery.of(context).size.width * 0.70,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Color.fromARGB(255, 233, 236, 239),
+                    ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'RECOMMENDATION',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 124, 126, 128),
+                            ),
+                          ),
+                          Text(
+                            ' | ',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 124, 126, 128),
+                            ),
+                          ),
+                          Text(
+                            'REFER A FRIEND',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 124, 126, 128),
+                            ),
+                          ),
+                        ])),
+                SizedBox(height: 12),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff58cdb3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 26),
+                  ),
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.repeat_rounded,
+                    size: 20,
+                  ),
+                  label: Text(
+                    'REPEAT ORDER',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Divider(
+            height: 5,
+            color: Colors.grey[300],
+            thickness: 8,
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            height: 75,
+            margin: const EdgeInsets.only(top: 8, left: 10),
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[200]!,
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  offset: Offset(0, 5), // changes position of shadow
+                ),
+              ],
+            ),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  width: 100,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 60,
+                        padding: EdgeInsets.only(top: 12),
+                        child: Image.asset('assets/images/chart.png'),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'My Group PV',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  width: 100,
+                  child: Column(
+                    children: [
+                      Container(
+                          height: 40,
+                          width: 60,
+                          padding: EdgeInsets.only(top: 12),
+                          // decoration: BoxDecoration(
+                          //   color: Color.fromARGB(255, 233, 236, 239),
+                          //   borderRadius: BorderRadius.circular(50),
+                          // ),
+                          child: Image.asset('assets/images/network.png')),
+                      SizedBox(height: 5),
+                      Text(
+                        'My Network',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  width: 100,
+                  child: Column(
+                    children: [
+                      Container(
+                          height: 40,
+                          width: 60,
+                          padding: EdgeInsets.only(top: 12),
+                          // decoration: BoxDecoration(
+                          //   color: Color.fromARGB(255, 233, 236, 239),
+                          //   borderRadius: BorderRadius.circular(50),
+                          // ),
+                          child: Image.asset('assets/images/voucher.png')),
+                      SizedBox(height: 5),
+                      Text(
+                        'My Voucher',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  width: 100,
+                  child: Column(
+                    children: [
+                      Container(
+                          height: 40,
+                          width: 60,
+                          padding: EdgeInsets.only(top: 12),
+                          // decoration: BoxDecoration(
+                          //   color: Color.fromARGB(255, 233, 236, 239),
+                          //   borderRadius: BorderRadius.circular(50),
+                          // ),
+                          child: Image.asset('assets/images/bonus.png')),
+                      SizedBox(height: 5),
+                      Text(
+                        'My Bonus',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            color: Color.fromARGB(255, 197, 214, 221),
+            child: Column(
+              children: [
+                Center(
+                  child:
+                      Text('Only way to do great work is to love what you do', style: TextStyle(fontSize: 12)),
+                ),
+                SizedBox(height: 8),
+                Stack(
+                  children: [
+                    Expanded(
+                        child: 
+                        Divider(color: Colors.grey[500], thickness: 2, height: 45, indent: 0, endIndent: 0,),
+                    ),
+                    Center(
+                      // top: ,
+                      child: ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.video_library_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 197, 214, 221),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          elevation: 0,
+                          side: BorderSide(
+                            color: Colors.grey[500]!,
+                            width: 2,
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 26),
+                        ),
+                        label: Text(
+                          'SunEdge Demo',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff6896d4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  ),
+                  child: Text(
+                    'Add New Distributor',
+                    // style: TextStyle(
+                    //   fontSize: 12,
+                    // ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
