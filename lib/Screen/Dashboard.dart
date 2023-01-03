@@ -56,9 +56,9 @@ class _HomePageState extends State<Dashboard>
     super.initState();
     initDynamicLinks();
     db.getTotalCartCount(context);
-     final pushNotificationService = PushNotificationService(
+    final pushNotificationService = PushNotificationService(
         context: context, pageController: _pageController);
-     pushNotificationService.initialise();
+    pushNotificationService.initialise();
 
     Future.delayed(Duration.zero, () async {
       SettingProvider settingsProvider =
@@ -396,12 +396,12 @@ class _HomePageState extends State<Dashboard>
                 ),
                 BottomBarItem(
                   icon: _selBottom == 4
-                      ? SvgPicture.asset(
-                          "${imagePath}profile01.svg",
+                      ? Image.asset(
+                          'assets/images/menu.png',
                           color: colors.primary,
                         )
-                      : SvgPicture.asset(
-                          "${imagePath}profile.svg",
+                      : Image.asset(
+                          'assets/images/menu-outline.png',
                           color: colors.primary,
                         ),
                   title: const Text('Profile'),

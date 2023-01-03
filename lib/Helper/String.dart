@@ -9,7 +9,8 @@ final Uri getSubcatApi =
     Uri.parse('${baseUrl}get_subcategories_by_category_id');
 final Uri getProductApi = Uri.parse('${baseUrl}get_products');
 final Uri manageCartApi = Uri.parse('${baseUrl}manage_cart');
-final Uri getUserLoginApi = Uri.parse('${baseUrl}login');
+// final Uri getUserLoginApi = Uri.parse('${baseUrl}login');
+final Uri getUserLoginApi = Uri.parse(loginUrl);
 final Uri getUserSignUpApi = Uri.parse('${baseUrl}register_user');
 final Uri getVerifyUserApi = Uri.parse('${baseUrl}verify_user');
 final Uri setFavoriteApi = Uri.parse('${baseUrl}add_to_favorites');

@@ -147,8 +147,8 @@ class _HomePageState extends State<HomePage>
                       _deliverPincode(),
                       _userDashboard(),
                       _getSearchBar(),
-                      _catList(),
                       _slider(),
+                      _catList(),
                       _section(),
                       _mostLike(),
                     ],
@@ -1261,116 +1261,150 @@ class _HomePageState extends State<HomePage>
             ? SizedBox(
                 width: double.infinity,
                 child: Shimmer.fromColors(
-                    baseColor: Theme.of(context).colorScheme.simmerBase,
-                    highlightColor: Theme.of(context).colorScheme.simmerHigh,
-                    child: catLoading()))
-            : Container(
-                height: 115,
-                padding: const EdgeInsets.only(top: 10, left: 10),
-                child: ListView.builder(
-                  itemCount: catList.length < 10 ? catList.length : 10,
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return Container();
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 17),
-                        child: InkWell(
-                          onTap: () async {
-                            if (catList[index].subList == null ||
-                                catList[index].subList!.isEmpty) {
-                              await Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) => ProductList(
-                                      name: catList[index].name,
-                                      id: catList[index].id,
-                                      tag: false,
-                                      fromSeller: false,
-                                    ),
-                                  ));
-                            } else {
-                              await Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) => SubCategory(
-                                      title: catList[index].name!,
-                                      subList: catList[index].subList,
-                                    ),
-                                  ));
-                            }
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                  padding: const EdgeInsetsDirectional.only(
-                                      bottom: 5.0, top: 8.0),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).cardColor,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .fontColor
-                                                .withOpacity(0.048),
-                                            spreadRadius: 2,
-                                            blurRadius: 13,
-                                            offset: const Offset(0,
-                                                0), // changes position of shadow
-                                          ),
-                                        ],
-                                      ),
-                                      child: CircleAvatar(
-                                          radius: 32.0,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .white,
-                                          child: networkImageCommon(
-                                              catList[index].image!, 50, false)
-                                          /*CachedNetworkImage(
-                                            fadeInDuration: const Duration(
-                                                milliseconds: 150),
-                                            imageUrl: catList[index].image!,
-                                            fit: BoxFit.fill,
-                                            errorWidget:
-                                                (context, error, stackTrace) =>
-                                                    erroWidget(50),
-                                            placeholder: (context, url) {
-                                              return placeHolder(50);
-                                            }),*/
-                                          ))),
-                              SizedBox(
-                                width: 50,
-                                child: Text(
-                                  capitalize(
-                                      catList[index].name!.toLowerCase()),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .fontColor,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 10),
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                  baseColor: Theme.of(context).colorScheme.simmerBase,
+                  highlightColor: Theme.of(context).colorScheme.simmerHigh,
+                  child: catLoading(),
                 ),
+              )
+            : Column(
+                children: [
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    'Shop by Category',
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: colors.primary, fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    height: 125,
+                    padding: const EdgeInsets.only(top: 10, left: 10),
+                    child: ListView.builder(
+                      itemCount: catList.length < 10 ? catList.length : 10,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Container();
+                        } else {
+                          return Container(
+                            decoration: BoxDecoration(
+                              // borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey[200]!,
+                                  spreadRadius: 1,
+                                  blurRadius: 7,
+                                  offset: Offset(
+                                      0, 5), // changes position of shadow
+                                ),
+                              ],
+                              borderRadius: BorderRadius.circular(8),
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            child: InkWell(
+                              onTap: () async {
+                                if (catList[index].subList == null ||
+                                    catList[index].subList!.isEmpty) {
+                                  await Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) => ProductList(
+                                        name: catList[index].name,
+                                        id: catList[index].id,
+                                        tag: false,
+                                        fromSeller: false,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  await Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) => SubCategory(
+                                        title: catList[index].name!,
+                                        subList: catList[index].subList,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.only(
+                                        bottom: 5.0, top: 8.0),
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).cardColor,
+                                          // shape: BoxShape.circle,
+                                          // boxShadow: [
+                                          //   BoxShadow(
+                                          //     color: Theme.of(context)
+                                          //         .colorScheme
+                                          //         .fontColor
+                                          //         .withOpacity(0.048),
+                                          //     spreadRadius: 2,
+                                          //     blurRadius: 13,
+                                          //     offset: const Offset(0,
+                                          //         0), // changes position of shadow
+                                          //   ),
+                                          // ],
+                                        ),
+                                        child: Image.network(
+                                          catList[index].image!,
+                                          height: 75,
+                                          width: 75,
+                                        )
+                                        /*CachedNetworkImage(
+                                                fadeInDuration: const Duration(
+                                                    milliseconds: 150),
+                                                imageUrl: catList[index].image!,
+                                                fit: BoxFit.fill,
+                                                errorWidget:
+                                                    (context, error, stackTrace) =>
+                                                        erroWidget(50),
+                                                placeholder: (context, url) {
+                                                  return placeHolder(50);
+                                                }),*/
+                                        ),
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                    child: Text(
+                                      capitalize(
+                                          catList[index].name!.toLowerCase()),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption!
+                                          .copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .fontColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 10),
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                ],
               );
       },
       selector: (_, homeProvider) => homeProvider.catLoading,
@@ -2217,7 +2251,7 @@ class _HomePageState extends State<HomePage>
   _getSearchBar() {
     return InkWell(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
         child: SizedBox(
           height: 38,
           child: TextField(
@@ -2263,26 +2297,58 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _userDashboard() {
+    // var parameter = {
+    //   'distribution_id': "7351279",
+    //   "password": "123456",
+    //   "loginuser": loginUser,
+    //   "loginpass": loginPass
+    // };
+    // apiBaseHelper.postAPICall(getUserLoginApi, parameter).then((value) {
+    //   if (value != null) {
+    //     print(value);
+    //     String status = value['status'];
+    //     String distributor_id = value['distributor_id'];
+    //     String current_previous_cpv = value["current_previous_cpv"];
+    //     String current_exclusive_pv = value["current_exclusive_pv"];
+    //     String current_self_pv = value["current_self_pv"];
+    //     String current_group_pv = value["current_group_pv"];
+    //     String current_cpv = value["current_cpv"];
+    //     String total_pv = value["total_pv"];
+    //     String actual_pv = value["actual_pv"];
+    //     String next_level = value["next_level"];
+    //     String short_points = value["short_points"];
+    //     String previous_exclusive_pv = value["previous_exclusive_pv"];
+    //     String previous_self_pv = value["previous_self_pv"];
+    //     String previous_totla_pv = value["previous_totla_pv"];
+    //     String last_month_level = value["last_month_level"];
+    //     String previous_actual_pv = value["previous_actual_pv"];
+    //   }
+    // });
     return Container(
-      margin: EdgeInsets.only(top: 8, bottom: 15),
+      margin: EdgeInsets.only(bottom: 15),
       child: Column(
         children: <Widget>[
           // SizedBox(
           //   height: 8,
           // ),
-          Divider(
-            height: 5,
-            color: Colors.grey[300],
-            thickness: 8,
-          ),
-          SizedBox(
-            height: 8,
-          ),
+          // Divider(
+          //   height: 5,
+          //   color: Colors.grey[300],
+          //   thickness: 8,
+          // ),
+          // SizedBox(
+          //   height: 8,
+          // ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             child: Column(
               children: [
-                Image.asset('assets/images/user.png', height: 50, width: 50, color: Colors.grey[500],),
+                Image.asset(
+                  'assets/images/user.png',
+                  height: 50,
+                  width: 50,
+                  color: Colors.grey[500],
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -2603,15 +2669,21 @@ class _HomePageState extends State<HomePage>
             child: Column(
               children: [
                 Center(
-                  child:
-                      Text('Only way to do great work is to love what you do', style: TextStyle(fontSize: 12)),
+                  child: Text(
+                      'Only way to do great work is to love what you do',
+                      style: TextStyle(fontSize: 12)),
                 ),
                 SizedBox(height: 8),
                 Stack(
                   children: [
                     Expanded(
-                        child: 
-                        Divider(color: Colors.grey[500], thickness: 2, height: 45, indent: 0, endIndent: 0,),
+                      child: Divider(
+                        color: Colors.grey[500],
+                        thickness: 2,
+                        height: 45,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
                     ),
                     Center(
                       // top: ,
