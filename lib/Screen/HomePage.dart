@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -12,6 +13,7 @@ import 'package:eshop/ui/widgets/SimBtn.dart';
 import 'package:eshop/Helper/SqliteData.dart';
 import 'package:eshop/Helper/String.dart';
 import 'package:eshop/Model/Model.dart';
+import 'package:eshop/Model/UserLoginModel.dart';
 import 'package:eshop/Model/Section_Model.dart';
 import 'package:eshop/Provider/CartProvider.dart';
 import 'package:eshop/Provider/CategoryProvider.dart';
@@ -26,6 +28,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:lottie/lottie.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +65,13 @@ List<String> tagList = [];
 List<Product> sellerList = [];
 List<Model> homeSliderList = [];
 List<Widget> pages = [];
+UserLoginData? userLoginData;
+final userQueryParameters = {
+  "distributor_id": "7351279",
+  "password": "123456",
+  "loginuser": loginUser,
+  "loginpass": loginPass
+};
 int count = 1;
 
 class _HomePageState extends State<HomePage>
@@ -1421,6 +1432,10 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> callApi() async {
+    var res = await getData();
+    String resBody = res.body.toString();
+    userLoginData = userLoginDataFromJson(resBody);
+
     UserProvider user = Provider.of<UserProvider>(context, listen: false);
     SettingProvider setting =
         Provider.of<SettingProvider>(context, listen: false);
@@ -2296,43 +2311,31 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _userDashboard() {
-    Map queryParameters = {
-      "distribution_id": "7351279",
-      "password": "123456",
-      "loginuser": loginUser,
-      "loginpass": Uri.decodeComponent(loginPass)
-    };
-    // var uri =
-    //     getUserLoginApi.replace(queryParameters: queryParameters).toString();
-    // uri = Uri.encodeFull(uri);
-    // print("queryParameters: ${uri.queryParameters["loginpass"]}");
-    // Uri.https('mysunedge.in', '/appmod/user_login.php', queryParameters);
-    // print("uri: ${uri}");
+  Future<http.Response> getData() {
+    return http.post(getUserLoginApi,
+        headers: <String, String>{
+          'Content-Type': 'text/plain',
+        },
+        body: 
+            '{"distributor_id": "7351279", "password": "123456", "loginuser": "${loginUser}", "loginpass": "${loginPass}"}');
+  }
 
-    // final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-    // apiBaseHelper.postAPICall(getUserLoginApi, queryParameters).then((value) {
-    //   if (value != null) {
-    //     print("value: ${value}");
-    //     String status = value['status'];
-    //     String distributor_id = value['distributor_id'];
-    //     String current_previous_cpv = value["current_previous_cpv"];
-    //     String current_exclusive_pv = value["current_exclusive_pv"];
-    //     String current_self_pv = value["current_self_pv"];
-    //     String current_group_pv = value["current_group_pv"];
-    //     String current_cpv = value["current_cpv"];
-    //     String total_pv = value["total_pv"];
-    //     String actual_pv = value["actual_pv"];
-    //     String next_level = value["next_level"];
-    //     String short_points = value["short_points"];
-    //     String previous_exclusive_pv = value["previous_exclusive_pv"];
-    //     String previous_self_pv = value["previous_self_pv"];
-    //     String previous_totla_pv = value["previous_totla_pv"];
-    //     String last_month_level = value["last_month_level"];
-    //     String previous_actual_pv = value["previous_actual_pv"];
-    //     print("next_level: ${next_level}");
-    //   }
+  Widget _userDashboard() {
+    // final queryParameters = {
+    //   "distribution_id": "7351279",
+    //   "password": "123456",
+    //   "loginuser": loginUser,
+    //   "loginpass": Uri.decodeComponent(loginPass)
+    // };
+    // String resBody = "";
+    // getData(queryParameters).then((value) async {
+    //   print("value: ${value}");
+    //   resBody = value.body.toString();
     // });
+    // print('${userLoginData!.distributorId}');
+    // final headers = {HttpHeaders.contentTypeHeader: 'text/plain'};
+    // final value = userLoginDataFromJson(resBody);
+    print("NEXT LEVEL: ${userLoginData!.nextLevel}");
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: Column(
@@ -2378,7 +2381,7 @@ class _HomePageState extends State<HomePage>
                           style: TextStyle(fontSize: 12),
                         ),
                         Text(
-                          'Non Qualified Director',
+                          '${userLoginData!.lastMonthLevel}',
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -2391,7 +2394,7 @@ class _HomePageState extends State<HomePage>
                           style: TextStyle(fontSize: 12),
                         ),
                         Text(
-                          'Crown Director',
+                          '${userLoginData!.nextLevel}',
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -2417,7 +2420,7 @@ class _HomePageState extends State<HomePage>
                           height: 2,
                         ),
                         Text(
-                          '0',
+                          '${userLoginData!.currentSelfPv}',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -2442,7 +2445,7 @@ class _HomePageState extends State<HomePage>
                           height: 2,
                         ),
                         Text(
-                          '0',
+                          '${userLoginData!.currentGroupPv}',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
