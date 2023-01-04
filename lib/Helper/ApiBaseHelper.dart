@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:convert' show utf8, json;
 import 'dart:io';
 
 import 'package:http/http.dart';
@@ -28,6 +28,26 @@ class ApiBaseHelper {
 
     return responseJson;
   }
+
+  // Future<dynamic> getAPICall(Uri url, Map<String, String> headers) async {
+  //   var responseJson;
+  //   try {
+  //     final response = await get(url, headers: headers)
+  //         .timeout(const Duration(seconds: timeOut));
+  //     // print("param****$param****$url");
+  //     print("respon****${response.statusCode}");
+
+  //     responseJson = _response(response);
+
+  //     print("responjson****$responseJson");
+  //   } on SocketException {
+  //     throw FetchDataException('No Internet connection');
+  //   } on TimeoutException {
+  //     throw FetchDataException('Something went wrong, try again later');
+  //   }
+
+  //   return responseJson;
+  // }
 
   dynamic _response(Response response) {
     switch (response.statusCode) {

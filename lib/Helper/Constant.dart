@@ -23,4 +23,4 @@ const String loginUrl = "https://mysunedge.in/appmod/user_login.php";
 const String jwtKey = "e3dc4d7c610633941928327ee0f112f6101d650e";
 
 const String loginUser = "adminapsun";
-const String loginPass = "56tyghefgr(jgdnklo0\$";
+const String loginPass = r"56tyghefgr(jgdnklo0$";

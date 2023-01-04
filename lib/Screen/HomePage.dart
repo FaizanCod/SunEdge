@@ -2297,15 +2297,23 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _userDashboard() {
-    // var parameter = {
-    //   'distribution_id': "7351279",
-    //   "password": "123456",
-    //   "loginuser": loginUser,
-    //   "loginpass": loginPass
-    // };
-    // apiBaseHelper.postAPICall(getUserLoginApi, parameter).then((value) {
+    Map queryParameters = {
+      "distribution_id": "7351279",
+      "password": "123456",
+      "loginuser": loginUser,
+      "loginpass": Uri.decodeComponent(loginPass)
+    };
+    // var uri =
+    //     getUserLoginApi.replace(queryParameters: queryParameters).toString();
+    // uri = Uri.encodeFull(uri);
+    // print("queryParameters: ${uri.queryParameters["loginpass"]}");
+    // Uri.https('mysunedge.in', '/appmod/user_login.php', queryParameters);
+    // print("uri: ${uri}");
+
+    // final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+    // apiBaseHelper.postAPICall(getUserLoginApi, queryParameters).then((value) {
     //   if (value != null) {
-    //     print(value);
+    //     print("value: ${value}");
     //     String status = value['status'];
     //     String distributor_id = value['distributor_id'];
     //     String current_previous_cpv = value["current_previous_cpv"];
@@ -2322,6 +2330,7 @@ class _HomePageState extends State<HomePage>
     //     String previous_totla_pv = value["previous_totla_pv"];
     //     String last_month_level = value["last_month_level"];
     //     String previous_actual_pv = value["previous_actual_pv"];
+    //     print("next_level: ${next_level}");
     //   }
     // });
     return Container(
