@@ -141,7 +141,8 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
+    UserProvider userDetails =
+        Provider.of<UserProvider>(context, listen: false);
     hideAppbarAndBottomBarOnScroll(_scrollBottomBarController, context);
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.lightWhite,
@@ -2312,16 +2313,479 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<http.Response> getData() async {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return http.post(getUserLoginDetailsApi,
         headers: <String, String>{
           'Content-Type': 'text/plain',
         },
-        body: 
-            '{"distributor_id": "7351279", "password": "123456", "loginuser": "${loginUser}", "loginpass": "${loginPass}"}');
+        body:
+            '{"distributor_id": "${userProvider.curUserName}", "password": "123456", "loginuser": "${loginUser}", "loginpass": "${loginPass}"}');
   }
 
   Widget _userDashboard() {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    return FutureBuilder(
+      future: getData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          print("DATA: ${snapshot.data!.body}");
+          userLoginData = userLoginDataFromJson(snapshot.data!.body);
+          print("DATA: ${userLoginData!.distributorId}");
+          return userLoginData != null &&
+                  userLoginData!.status == "1" &&
+                  userProvider.curUserName != '' &&
+                  userLoginData!.distributorId!.length != 10
+              ? Container(
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: Column(
+                    children: <Widget>[
+                      // SizedBox(
+                      //   height: 8,
+                      // ),
+                      // Divider(
+                      //   height: 5,
+                      //   color: Colors.grey[300],
+                      //   thickness: 8,
+                      // ),
+                      // SizedBox(
+                      //   height: 8,
+                      // ),
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/user.png',
+                              height: 50,
+                              width: 50,
+                              color: Colors.grey[500],
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text('${userLoginData!.distributorId}',
+                                style: TextStyle(fontSize: 16)),
+                            Text(
+                              "${userLoginData!.distributorId}",
+                              style: TextStyle(fontSize: 11),
+                            ),
+                            SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Last Month Level',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      '${userLoginData!.lastMonthLevel}',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                                // SizedBox(width: 50),
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Next Level',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      '${userLoginData!.nextLevel}',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 14),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'MY PV',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      '${userLoginData!.currentSelfPv}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // SizedBox(width: 10),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'GROUP PV',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff1b7b41),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      '${userLoginData!.currentGroupPv}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff1b7b41),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // SizedBox(width: 33),
+                                // VerticalDivider(),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'MY NETWORK',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.yellow[800],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      '-',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.yellow[800],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 14),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.70,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Color.fromARGB(255, 233, 236, 239),
+                                ),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        'RECOMMENDATION',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(
+                                              255, 124, 126, 128),
+                                        ),
+                                      ),
+                                      Text(
+                                        ' | ',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(
+                                              255, 124, 126, 128),
+                                        ),
+                                      ),
+                                      Text(
+                                        'REFER A FRIEND',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(
+                                              255, 124, 126, 128),
+                                        ),
+                                      ),
+                                    ])),
+                            SizedBox(height: 12),
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff58cdb3),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 26),
+                              ),
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.repeat_rounded,
+                                size: 20,
+                              ),
+                              label: Text(
+                                'REPEAT ORDER',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Divider(
+                        height: 5,
+                        color: Colors.grey[300],
+                        thickness: 8,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        height: 75,
+                        margin: const EdgeInsets.only(top: 8, left: 10),
+                        decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey[200]!,
+                              spreadRadius: 1,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              width: 100,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 40,
+                                    width: 60,
+                                    padding: EdgeInsets.only(top: 12),
+                                    child:
+                                        Image.asset('assets/images/chart.png'),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'My Group PV',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              width: 100,
+                              child: Column(
+                                children: [
+                                  Container(
+                                      height: 40,
+                                      width: 60,
+                                      padding: EdgeInsets.only(top: 12),
+                                      // decoration: BoxDecoration(
+                                      //   color: Color.fromARGB(255, 233, 236, 239),
+                                      //   borderRadius: BorderRadius.circular(50),
+                                      // ),
+                                      child: Image.asset(
+                                          'assets/images/network.png')),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'My Network',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              width: 100,
+                              child: Column(
+                                children: [
+                                  Container(
+                                      height: 40,
+                                      width: 60,
+                                      padding: EdgeInsets.only(top: 12),
+                                      // decoration: BoxDecoration(
+                                      //   color: Color.fromARGB(255, 233, 236, 239),
+                                      //   borderRadius: BorderRadius.circular(50),
+                                      // ),
+                                      child: Image.asset(
+                                          'assets/images/voucher.png')),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'My Voucher',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              width: 100,
+                              child: Column(
+                                children: [
+                                  Container(
+                                      height: 40,
+                                      width: 60,
+                                      padding: EdgeInsets.only(top: 12),
+                                      // decoration: BoxDecoration(
+                                      //   color: Color.fromARGB(255, 233, 236, 239),
+                                      //   borderRadius: BorderRadius.circular(50),
+                                      // ),
+                                      child: Image.asset(
+                                          'assets/images/bonus.png')),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'My Bonus',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                        color: Color.fromARGB(255, 197, 214, 221),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                  'Only way to do great work is to love what you do',
+                                  style: TextStyle(fontSize: 12)),
+                            ),
+                            SizedBox(height: 8),
+                            Stack(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.grey[500],
+                                    thickness: 2,
+                                    height: 45,
+                                    indent: 0,
+                                    endIndent: 0,
+                                  ),
+                                ),
+                                Center(
+                                  // top: ,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.video_library_rounded,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 197, 214, 221),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      elevation: 0,
+                                      side: BorderSide(
+                                        color: Colors.grey[500]!,
+                                        width: 2,
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 26),
+                                    ),
+                                    label: Text(
+                                      'SunEdge Demo',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff6896d4),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 50),
+                              ),
+                              child: Text(
+                                'Add New Distributor',
+                                // style: TextStyle(
+                                //   fontSize: 12,
+                                // ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : Container(
+                  // child: Center(
+                  //   child: CircularProgressIndicator(),
+                  // ),
+                  // padding: EdgeInsets.symmetric(vertical: 16),
+                  );
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
     // final queryParameters = {
     //   "distributor_id": "7351279",
     //   "password": "123456",
@@ -2337,434 +2801,6 @@ class _HomePageState extends State<HomePage>
     // final headers = {HttpHeaders.contentTypeHeader: 'text/plain'};
     // final value = userLoginDataFromJson(resBody);
     // print("NEXT LEVEL: ${userLoginData!.nextLevel}");
-    return userLoginData != null && userLoginData!.status != 0 && userProvider.curUserName != '' && userProvider.mobile.length != 10
-        ? Container(
-            margin: EdgeInsets.only(bottom: 15),
-            child: Column(
-              children: <Widget>[
-                // SizedBox(
-                //   height: 8,
-                // ),
-                // Divider(
-                //   height: 5,
-                //   color: Colors.grey[300],
-                //   thickness: 8,
-                // ),
-                // SizedBox(
-                //   height: 8,
-                // ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/user.png',
-                        height: 50,
-                        width: 50,
-                        color: Colors.grey[500],
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text('${userProvider.curUserName}', style: TextStyle(fontSize: 16)),
-                      Text(
-                        "${userLoginData!.distributorId}",
-                        style: TextStyle(fontSize: 11),
-                      ),
-                      SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                'Last Month Level',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                '${userLoginData!.lastMonthLevel}',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                          // SizedBox(width: 50),
-                          Column(
-                            children: [
-                              Text(
-                                'Next Level',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                '${userLoginData!.nextLevel}',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 14),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                'MY PV',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                '${userLoginData!.currentSelfPv}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                          // SizedBox(width: 10),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                'GROUP PV',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff1b7b41),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                '${userLoginData!.currentGroupPv}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff1b7b41),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // SizedBox(width: 33),
-                          // VerticalDivider(),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                'MY NETWORK',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.yellow[800],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                '-',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.yellow[800],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 14),
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.70,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Color.fromARGB(255, 233, 236, 239),
-                          ),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  'RECOMMENDATION',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 124, 126, 128),
-                                  ),
-                                ),
-                                Text(
-                                  ' | ',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 124, 126, 128),
-                                  ),
-                                ),
-                                Text(
-                                  'REFER A FRIEND',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 124, 126, 128),
-                                  ),
-                                ),
-                              ])),
-                      SizedBox(height: 12),
-                      ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff58cdb3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 6, horizontal: 26),
-                        ),
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.repeat_rounded,
-                          size: 20,
-                        ),
-                        label: Text(
-                          'REPEAT ORDER',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Divider(
-                  height: 5,
-                  color: Colors.grey[300],
-                  thickness: 8,
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  height: 75,
-                  margin: const EdgeInsets.only(top: 8, left: 10),
-                  decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey[200]!,
-                        spreadRadius: 1,
-                        blurRadius: 7,
-                        offset: Offset(0, 5), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 60,
-                              padding: EdgeInsets.only(top: 12),
-                              child: Image.asset('assets/images/chart.png'),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'My Group PV',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Container(
-                                height: 40,
-                                width: 60,
-                                padding: EdgeInsets.only(top: 12),
-                                // decoration: BoxDecoration(
-                                //   color: Color.fromARGB(255, 233, 236, 239),
-                                //   borderRadius: BorderRadius.circular(50),
-                                // ),
-                                child:
-                                    Image.asset('assets/images/network.png')),
-                            SizedBox(height: 5),
-                            Text(
-                              'My Network',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Container(
-                                height: 40,
-                                width: 60,
-                                padding: EdgeInsets.only(top: 12),
-                                // decoration: BoxDecoration(
-                                //   color: Color.fromARGB(255, 233, 236, 239),
-                                //   borderRadius: BorderRadius.circular(50),
-                                // ),
-                                child:
-                                    Image.asset('assets/images/voucher.png')),
-                            SizedBox(height: 5),
-                            Text(
-                              'My Voucher',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Container(
-                                height: 40,
-                                width: 60,
-                                padding: EdgeInsets.only(top: 12),
-                                // decoration: BoxDecoration(
-                                //   color: Color.fromARGB(255, 233, 236, 239),
-                                //   borderRadius: BorderRadius.circular(50),
-                                // ),
-                                child: Image.asset('assets/images/bonus.png')),
-                            SizedBox(height: 5),
-                            Text(
-                              'My Bonus',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  color: Color.fromARGB(255, 197, 214, 221),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Text(
-                            'Only way to do great work is to love what you do',
-                            style: TextStyle(fontSize: 12)),
-                      ),
-                      SizedBox(height: 8),
-                      Stack(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey[500],
-                              thickness: 2,
-                              height: 45,
-                              indent: 0,
-                              endIndent: 0,
-                            ),
-                          ),
-                          Center(
-                            // top: ,
-                            child: ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.video_library_rounded,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromARGB(255, 197, 214, 221),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                elevation: 0,
-                                side: BorderSide(
-                                  color: Colors.grey[500]!,
-                                  width: 2,
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 26),
-                              ),
-                              label: Text(
-                                'SunEdge Demo',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff6896d4),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 50),
-                        ),
-                        child: Text(
-                          'Add New Distributor',
-                          // style: TextStyle(
-                          //   fontSize: 12,
-                          // ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        : Container(
-            // child: Center(
-            //   child: CircularProgressIndicator(),
-            // ),
-            // padding: EdgeInsets.symmetric(vertical: 16),
-          );
   }
 
   void _pincodeCheck() {

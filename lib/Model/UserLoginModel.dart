@@ -12,39 +12,39 @@ String userLoginDataToJson(UserLoginData data) => json.encode(data.toJson());
 class UserLoginData {
   UserLoginData({
     required this.status,
-    required this.distributorId,
-    required this.currentPreviousCpv,
-    required this.currentExclusivePv,
-    required this.currentSelfPv,
-    required this.currentGroupPv,
-    required this.currentCpv,
-    required this.totalPv,
-    required this.actualPv,
-    required this.nextLevel,
-    required this.shortPoints,
-    required this.previousExclusivePv,
-    required this.previousSelfPv,
-    required this.previousTotlaPv,
-    required this.lastMonthLevel,
-    required this.previousActualPv,
+    this.distributorId = "",
+    this.currentPreviousCpv = "",
+    this.currentExclusivePv = 0,
+    this.currentSelfPv = "",
+    this.currentGroupPv = "",
+    this.currentCpv = "",
+    this.totalPv = "",
+    this.actualPv = 0,
+    this.nextLevel = "",
+    this.shortPoints = 0,
+    this.previousExclusivePv = 0,
+    this.previousSelfPv = "",
+    this.previousTotlaPv = "",
+    this.lastMonthLevel = "",
+    this.previousActualPv = 0,
   });
 
-  String status;
-  String distributorId;
-  String currentPreviousCpv;
-  int currentExclusivePv;
-  String currentSelfPv;
-  String currentGroupPv;
-  String currentCpv;
-  String totalPv;
-  int actualPv;
-  String nextLevel;
-  int shortPoints;
-  int previousExclusivePv;
-  String previousSelfPv;
-  String previousTotlaPv;
-  String lastMonthLevel;
-  int previousActualPv;
+  final String status;
+  final String? distributorId;
+  final String? currentPreviousCpv;
+  final int? currentExclusivePv;
+  final String? currentSelfPv;
+  final String? currentGroupPv;
+  final String? currentCpv;
+  final String? totalPv;
+  final int? actualPv;
+  final String? nextLevel;
+  final int? shortPoints;
+  final int? previousExclusivePv;
+  final String? previousSelfPv;
+  final String? previousTotlaPv;
+  final String? lastMonthLevel;
+  final int? previousActualPv;
 
   factory UserLoginData.fromJson(Map<String, dynamic> json) => UserLoginData(
         status: json["status"],
