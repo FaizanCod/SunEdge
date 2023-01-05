@@ -18,7 +18,7 @@ const int tokenExpireTime = 5;
 const String issuerName = 'eshop';
 
 const String baseUrl = "https://eshop.mysunedge.com/app/v1/api/";
-const String loginUrl = "https://mysunedge.in/appmod/user_login.php";
+const String loginDetailsUrl = "https://mysunedge.in/appmod/user_login.php";
 
 const String jwtKey = "e3dc4d7c610633941928327ee0f112f6101d650e";
 

@@ -1432,10 +1432,6 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> callApi() async {
-    var res = await getData();
-    String resBody = res.body.toString();
-    userLoginData = userLoginDataFromJson(resBody);
-
     UserProvider user = Provider.of<UserProvider>(context, listen: false);
     SettingProvider setting =
         Provider.of<SettingProvider>(context, listen: false);
@@ -1449,6 +1445,9 @@ class _HomePageState extends State<HomePage>
     _isNetworkAvail = await isNetworkAvailable();
     if (_isNetworkAvail) {
       getSetting();
+      var res = await getData();
+      String resBody = res.body.toString();
+      userLoginData = userLoginDataFromJson(resBody);
     } else {
       if (mounted) {
         setState(() {
@@ -2311,8 +2310,8 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Future<http.Response> getData() {
-    return http.post(getUserLoginApi,
+  Future<http.Response> getData() async {
+    return http.post(getUserLoginDetailsApi,
         headers: <String, String>{
           'Content-Type': 'text/plain',
         },
@@ -2321,8 +2320,9 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _userDashboard() {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     // final queryParameters = {
-    //   "distribution_id": "7351279",
+    //   "distributor_id": "7351279",
     //   "password": "123456",
     //   "loginuser": loginUser,
     //   "loginpass": Uri.decodeComponent(loginPass)
@@ -2335,422 +2335,435 @@ class _HomePageState extends State<HomePage>
     // print('${userLoginData!.distributorId}');
     // final headers = {HttpHeaders.contentTypeHeader: 'text/plain'};
     // final value = userLoginDataFromJson(resBody);
-    print("NEXT LEVEL: ${userLoginData!.nextLevel}");
-    return Container(
-      margin: EdgeInsets.only(bottom: 15),
-      child: Column(
-        children: <Widget>[
-          // SizedBox(
-          //   height: 8,
-          // ),
-          // Divider(
-          //   height: 5,
-          //   color: Colors.grey[300],
-          //   thickness: 8,
-          // ),
-          // SizedBox(
-          //   height: 8,
-          // ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+    // print("NEXT LEVEL: ${userLoginData!.nextLevel}");
+    return userLoginData != null && userProvider.curUserName != ''
+        ? Container(
+            margin: EdgeInsets.only(bottom: 15),
             child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/user.png',
-                  height: 50,
-                  width: 50,
-                  color: Colors.grey[500],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text('AMOL PARAKH', style: TextStyle(fontSize: 16)),
-                Text(
-                  'Diamond Director-50155353',
-                  style: TextStyle(fontSize: 11),
-                ),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'Last Month Level',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        Text(
-                          '${userLoginData!.lastMonthLevel}',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    // SizedBox(width: 50),
-                    Column(
-                      children: [
-                        Text(
-                          'Next Level',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        Text(
-                          '${userLoginData!.nextLevel}',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 14),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          'MY PV',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          '${userLoginData!.currentSelfPv}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    // SizedBox(width: 10),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          'GROUP PV',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff1b7b41),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          '${userLoginData!.currentGroupPv}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff1b7b41),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // SizedBox(width: 33),
-                    // VerticalDivider(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          'MY NETWORK',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.yellow[800],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          '2,773',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.yellow[800],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 14),
+              children: <Widget>[
+                // SizedBox(
+                //   height: 8,
+                // ),
+                // Divider(
+                //   height: 5,
+                //   color: Colors.grey[300],
+                //   thickness: 8,
+                // ),
+                // SizedBox(
+                //   height: 8,
+                // ),
                 Container(
-                    width: MediaQuery.of(context).size.width * 0.70,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Color.fromARGB(255, 233, 236, 239),
-                    ),
-                    child: Row(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/user.png',
+                        height: 50,
+                        width: 50,
+                        color: Colors.grey[500],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text('AMOL PARAKH', style: TextStyle(fontSize: 16)),
+                      Text(
+                        'Diamond Director-50155353',
+                        style: TextStyle(fontSize: 11),
+                      ),
+                      SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                'Last Month Level',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                '${userLoginData!.lastMonthLevel}',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                          // SizedBox(width: 50),
+                          Column(
+                            children: [
+                              Text(
+                                'Next Level',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                '${userLoginData!.nextLevel}',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 14),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(
-                            'RECOMMENDATION',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 124, 126, 128),
-                            ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'MY PV',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                '${userLoginData!.currentSelfPv}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            ' | ',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 124, 126, 128),
-                            ),
+                          // SizedBox(width: 10),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'GROUP PV',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff1b7b41),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                '${userLoginData!.currentGroupPv}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff1b7b41),
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'REFER A FRIEND',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 124, 126, 128),
-                            ),
+                          // SizedBox(width: 33),
+                          // VerticalDivider(),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'MY NETWORK',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.yellow[800],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                '2,773',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.yellow[800],
+                                ),
+                              ),
+                            ],
                           ),
-                        ])),
-                SizedBox(height: 12),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff58cdb3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 26),
-                  ),
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.repeat_rounded,
-                    size: 20,
-                  ),
-                  label: Text(
-                    'REPEAT ORDER',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Divider(
-            height: 5,
-            color: Colors.grey[300],
-            thickness: 8,
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Container(
-            height: 75,
-            margin: const EdgeInsets.only(top: 8, left: 10),
-            decoration: BoxDecoration(
-              // borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[200]!,
-                  spreadRadius: 1,
-                  blurRadius: 7,
-                  offset: Offset(0, 5), // changes position of shadow
-                ),
-              ],
-            ),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  width: 100,
-                  child: Column(
-                    children: [
+                        ],
+                      ),
+                      SizedBox(height: 14),
                       Container(
-                        height: 40,
-                        width: 60,
-                        padding: EdgeInsets.only(top: 12),
-                        child: Image.asset('assets/images/chart.png'),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'My Group PV',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  width: 100,
-                  child: Column(
-                    children: [
-                      Container(
-                          height: 40,
-                          width: 60,
-                          padding: EdgeInsets.only(top: 12),
-                          // decoration: BoxDecoration(
-                          //   color: Color.fromARGB(255, 233, 236, 239),
-                          //   borderRadius: BorderRadius.circular(50),
-                          // ),
-                          child: Image.asset('assets/images/network.png')),
-                      SizedBox(height: 5),
-                      Text(
-                        'My Network',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  width: 100,
-                  child: Column(
-                    children: [
-                      Container(
-                          height: 40,
-                          width: 60,
-                          padding: EdgeInsets.only(top: 12),
-                          // decoration: BoxDecoration(
-                          //   color: Color.fromARGB(255, 233, 236, 239),
-                          //   borderRadius: BorderRadius.circular(50),
-                          // ),
-                          child: Image.asset('assets/images/voucher.png')),
-                      SizedBox(height: 5),
-                      Text(
-                        'My Voucher',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  width: 100,
-                  child: Column(
-                    children: [
-                      Container(
-                          height: 40,
-                          width: 60,
-                          padding: EdgeInsets.only(top: 12),
-                          // decoration: BoxDecoration(
-                          //   color: Color.fromARGB(255, 233, 236, 239),
-                          //   borderRadius: BorderRadius.circular(50),
-                          // ),
-                          child: Image.asset('assets/images/bonus.png')),
-                      SizedBox(height: 5),
-                      Text(
-                        'My Bonus',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            color: Color.fromARGB(255, 197, 214, 221),
-            child: Column(
-              children: [
-                Center(
-                  child: Text(
-                      'Only way to do great work is to love what you do',
-                      style: TextStyle(fontSize: 12)),
-                ),
-                SizedBox(height: 8),
-                Stack(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.grey[500],
-                        thickness: 2,
-                        height: 45,
-                        indent: 0,
-                        endIndent: 0,
-                      ),
-                    ),
-                    Center(
-                      // top: ,
-                      child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.video_library_rounded,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                          width: MediaQuery.of(context).size.width * 0.70,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: Color.fromARGB(255, 233, 236, 239),
+                          ),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  'RECOMMENDATION',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 126, 128),
+                                  ),
+                                ),
+                                Text(
+                                  ' | ',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 126, 128),
+                                  ),
+                                ),
+                                Text(
+                                  'REFER A FRIEND',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 126, 128),
+                                  ),
+                                ),
+                              ])),
+                      SizedBox(height: 12),
+                      ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 197, 214, 221),
+                          backgroundColor: Color(0xff58cdb3),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          elevation: 0,
-                          side: BorderSide(
-                            color: Colors.grey[500]!,
-                            width: 2,
+                            borderRadius: BorderRadius.circular(50),
                           ),
                           padding:
-                              EdgeInsets.symmetric(vertical: 8, horizontal: 26),
+                              EdgeInsets.symmetric(vertical: 6, horizontal: 26),
+                        ),
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.repeat_rounded,
+                          size: 20,
                         ),
                         label: Text(
-                          'SunEdge Demo',
+                          'REPEAT ORDER',
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff6896d4),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                    ],
                   ),
-                  child: Text(
-                    'Add New Distributor',
-                    // style: TextStyle(
-                    //   fontSize: 12,
-                    // ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Divider(
+                  height: 5,
+                  color: Colors.grey[300],
+                  thickness: 8,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: 75,
+                  margin: const EdgeInsets.only(top: 8, left: 10),
+                  decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey[200]!,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        width: 100,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 60,
+                              padding: EdgeInsets.only(top: 12),
+                              child: Image.asset('assets/images/chart.png'),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              'My Group PV',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        width: 100,
+                        child: Column(
+                          children: [
+                            Container(
+                                height: 40,
+                                width: 60,
+                                padding: EdgeInsets.only(top: 12),
+                                // decoration: BoxDecoration(
+                                //   color: Color.fromARGB(255, 233, 236, 239),
+                                //   borderRadius: BorderRadius.circular(50),
+                                // ),
+                                child:
+                                    Image.asset('assets/images/network.png')),
+                            SizedBox(height: 5),
+                            Text(
+                              'My Network',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        width: 100,
+                        child: Column(
+                          children: [
+                            Container(
+                                height: 40,
+                                width: 60,
+                                padding: EdgeInsets.only(top: 12),
+                                // decoration: BoxDecoration(
+                                //   color: Color.fromARGB(255, 233, 236, 239),
+                                //   borderRadius: BorderRadius.circular(50),
+                                // ),
+                                child:
+                                    Image.asset('assets/images/voucher.png')),
+                            SizedBox(height: 5),
+                            Text(
+                              'My Voucher',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        width: 100,
+                        child: Column(
+                          children: [
+                            Container(
+                                height: 40,
+                                width: 60,
+                                padding: EdgeInsets.only(top: 12),
+                                // decoration: BoxDecoration(
+                                //   color: Color.fromARGB(255, 233, 236, 239),
+                                //   borderRadius: BorderRadius.circular(50),
+                                // ),
+                                child: Image.asset('assets/images/bonus.png')),
+                            SizedBox(height: 5),
+                            Text(
+                              'My Bonus',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  color: Color.fromARGB(255, 197, 214, 221),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(
+                            'Only way to do great work is to love what you do',
+                            style: TextStyle(fontSize: 12)),
+                      ),
+                      SizedBox(height: 8),
+                      Stack(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: Colors.grey[500],
+                              thickness: 2,
+                              height: 45,
+                              indent: 0,
+                              endIndent: 0,
+                            ),
+                          ),
+                          Center(
+                            // top: ,
+                            child: ElevatedButton.icon(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.video_library_rounded,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 197, 214, 221),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                elevation: 0,
+                                side: BorderSide(
+                                  color: Colors.grey[500]!,
+                                  width: 2,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 26),
+                              ),
+                              label: Text(
+                                'SunEdge Demo',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff6896d4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 50),
+                        ),
+                        child: Text(
+                          'Add New Distributor',
+                          // style: TextStyle(
+                          //   fontSize: 12,
+                          // ),
+                        ),
+                      )
+                    ],
                   ),
                 )
               ],
             ),
           )
-        ],
-      ),
-    );
+        : Container(
+            // child: Center(
+            //   child: CircularProgressIndicator(),
+            // ),
+            // padding: EdgeInsets.symmetric(vertical: 16),
+          );
   }
 
   void _pincodeCheck() {
