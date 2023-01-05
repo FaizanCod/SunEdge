@@ -66,12 +66,6 @@ List<Product> sellerList = [];
 List<Model> homeSliderList = [];
 List<Widget> pages = [];
 UserLoginData? userLoginData;
-final userQueryParameters = {
-  "distributor_id": "7351279",
-  "password": "123456",
-  "loginuser": loginUser,
-  "loginpass": loginPass
-};
 int count = 1;
 
 class _HomePageState extends State<HomePage>
@@ -1447,9 +1441,6 @@ class _HomePageState extends State<HomePage>
     _isNetworkAvail = await isNetworkAvailable();
     if (_isNetworkAvail) {
       getSetting();
-      var res = await getData();
-      String resBody = res.body.toString();
-      userLoginData = userLoginDataFromJson(resBody);
     } else {
       if (mounted) {
         setState(() {
@@ -2320,6 +2311,7 @@ class _HomePageState extends State<HomePage>
         },
         body:
             '{"distributor_id": "${userProvider.curUserName}", "password": "123456", "loginuser": "${loginUser}", "loginpass": "${loginPass}"}');
+            // password to be fetched dynamically
   }
 
   Widget _userDashboard() {
@@ -2783,7 +2775,7 @@ class _HomePageState extends State<HomePage>
                   // padding: EdgeInsets.symmetric(vertical: 16),
                   );
         }
-        return const Center(child: CircularProgressIndicator());
+        return Container(child: Center(child: CircularProgressIndicator()), padding: EdgeInsets.only(bottom: 8),);
       },
     );
     // final queryParameters = {
