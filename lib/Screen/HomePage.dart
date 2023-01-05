@@ -141,6 +141,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
     hideAppbarAndBottomBarOnScroll(_scrollBottomBarController, context);
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.lightWhite,
@@ -2336,7 +2337,7 @@ class _HomePageState extends State<HomePage>
     // final headers = {HttpHeaders.contentTypeHeader: 'text/plain'};
     // final value = userLoginDataFromJson(resBody);
     // print("NEXT LEVEL: ${userLoginData!.nextLevel}");
-    return userLoginData != null && userProvider.curUserName != ''
+    return userLoginData != null && userLoginData!.status != 0 && userProvider.curUserName != '' && userProvider.mobile.length != 10
         ? Container(
             margin: EdgeInsets.only(bottom: 15),
             child: Column(
@@ -2365,9 +2366,9 @@ class _HomePageState extends State<HomePage>
                       SizedBox(
                         height: 15,
                       ),
-                      Text('AMOL PARAKH', style: TextStyle(fontSize: 16)),
+                      Text('${userProvider.curUserName}', style: TextStyle(fontSize: 16)),
                       Text(
-                        'Diamond Director-50155353',
+                        "${userLoginData!.distributorId}",
                         style: TextStyle(fontSize: 11),
                       ),
                       SizedBox(height: 12),
@@ -2472,7 +2473,7 @@ class _HomePageState extends State<HomePage>
                                 height: 2,
                               ),
                               Text(
-                                '2,773',
+                                '-',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
