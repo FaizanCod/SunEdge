@@ -13,6 +13,7 @@ import 'package:eshop/Screen/Cart.dart';
 import 'package:eshop/Screen/Favorite.dart';
 import 'package:eshop/Screen/Login.dart';
 import 'package:eshop/Screen/MyProfile.dart';
+import 'package:eshop/ui/widgets/HamburgerMenu.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<Dashboard>
   int _selBottom = 0;
 
   final PageController _pageController = PageController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isNetworkAvail = true;
   var db = DatabaseHelper();
   late AnimationController navigationContainerAnimationController =
@@ -86,9 +88,11 @@ class _HomePageState extends State<Dashboard>
         top: false,
         bottom: true,
         child: Scaffold(
+          key: _scaffoldKey,
           extendBody: true,
           backgroundColor: Theme.of(context).colorScheme.lightWhite,
           appBar: _getAppBar(),
+          drawer: HamburgerMenu(),
           body: PageView(
             controller: _pageController,
             children: const [
@@ -222,6 +226,14 @@ class _HomePageState extends State<Dashboard>
       elevation: 0,
       centerTitle: false,
       automaticallyImplyLeading: false,
+      // leading: HamburgerMenu(),
+      leading: IconButton(
+        padding: EdgeInsets.zero,
+        icon: Icon(Icons.menu, color: colors.primary, size: 25,),
+        onPressed: () {
+          _scaffoldKey.currentState!.openDrawer();
+        },
+      ),
       title: _selBottom == 0
           // ? SvgPicture.asset(
           //     'assets/images/titleicon.svg',

@@ -25,7 +25,10 @@ import 'HomePage.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
-
+  // late String password;
+  //   String getPass() {
+  //   return password;
+  // }
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -160,7 +163,6 @@ class _LoginPageState extends State<Login> with TickerProviderStateMixin {
   Future<void> getLoginUser() async {
     var data = {MOBILE: mobile, PASSWORD: password};
     apiBaseHelper.postAPICall(getUserLoginApi, data).then((getdata) async {
-
       bool error = getdata["error"];
       String? msg = getdata["message"];
 

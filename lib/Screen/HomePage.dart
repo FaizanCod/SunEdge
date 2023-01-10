@@ -9,6 +9,7 @@ import 'package:eshop/ui/widgets/AppBtn.dart';
 import 'package:eshop/Helper/Color.dart';
 import 'package:eshop/Helper/Constant.dart';
 import 'package:eshop/Helper/Session.dart';
+import 'package:eshop/ui/widgets/HamburgerMenu.dart';
 import 'package:eshop/ui/widgets/SimBtn.dart';
 import 'package:eshop/Helper/SqliteData.dart';
 import 'package:eshop/Helper/String.dart';
@@ -140,6 +141,7 @@ class _HomePageState extends State<HomePage>
     hideAppbarAndBottomBarOnScroll(_scrollBottomBarController, context);
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.lightWhite,
+        drawer: HamburgerMenu(),
         body: _isNetworkAvail
             ? RefreshIndicator(
                 color: colors.primary,
@@ -2305,13 +2307,14 @@ class _HomePageState extends State<HomePage>
 
   Future<http.Response> getData() async {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    // var password = Login().getPass();
     return http.post(getUserLoginDetailsApi,
         headers: <String, String>{
           'Content-Type': 'text/plain',
         },
         body:
             '{"distributor_id": "${userProvider.curUserName}", "password": "123456", "loginuser": "${loginUser}", "loginpass": "${loginPass}"}');
-            // password to be fetched dynamically
+    // password to be fetched dynamically
   }
 
   Widget _userDashboard() {
@@ -2775,7 +2778,10 @@ class _HomePageState extends State<HomePage>
                   // padding: EdgeInsets.symmetric(vertical: 16),
                   );
         }
-        return Container(child: Center(child: CircularProgressIndicator()), padding: EdgeInsets.only(bottom: 8),);
+        return Container(
+          child: Center(child: CircularProgressIndicator()),
+          padding: EdgeInsets.only(bottom: 8),
+        );
       },
     );
     // final queryParameters = {
