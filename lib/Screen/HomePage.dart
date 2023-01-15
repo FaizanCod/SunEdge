@@ -2313,7 +2313,7 @@ class _HomePageState extends State<HomePage>
           'Content-Type': 'text/plain',
         },
         body:
-            '{"distributor_id": "${userProvider.curUserName}", "password": "123456", "loginuser": "${loginUser}", "loginpass": "${loginPass}"}');
+            '{"distributor_id": "${userProvider.curUserName}", "password": "${userProvider.password}", "loginuser": "$loginUser", "loginpass": "$loginPass"}');
     // password to be fetched dynamically
   }
 
@@ -2322,8 +2322,25 @@ class _HomePageState extends State<HomePage>
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
+        print(snapshot.toString());
         if (snapshot.hasData) {
           print("DATA: ${snapshot.data!.body}");
+          if (snapshot.data!.body.toString()[0] == '<') {
+            // print(userProvider.mobile);
+            return userProvider.curUserName != '' &&
+                    userProvider.mobile.length != 10
+                ? Container(
+                    child: Center(
+                      child: Text(
+                        "SunEdge API is not working",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 16),
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                  )
+                : Container();
+          }
           userLoginData = userLoginDataFromJson(snapshot.data!.body);
           print("DATA: ${userLoginData!.distributorId}");
           return userLoginData != null &&

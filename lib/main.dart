@@ -13,6 +13,9 @@ import 'package:eshop/Provider/ProductDetailProvider.dart';
 import 'package:eshop/Provider/ProductProvider.dart';
 
 import 'package:eshop/Provider/UserProvider.dart';
+import 'package:eshop/Screen/MemberRegistration.dart';
+import 'package:eshop/Screen/MyBonus.dart';
+import 'package:eshop/Screen/MyOrders.dart';
 
 import 'package:eshop/Screen/Splash.dart';
 import 'package:eshop/ui/styles/themedata.dart';
@@ -193,6 +196,9 @@ class _MyAppState extends State<MyApp> {
               '/': (context) => const Splash(),
               '/home': (context) => const Dashboard(),
               '/login': (context) => const Login(),
+              '/new-member-registration': (context) => const MemberRegistration(),
+              '/my-bonus': (context) => const MyBonus(),
+              '/my-orders': (context) => const MyOrders(),
             },
 
             // darkTheme: darkTheme,

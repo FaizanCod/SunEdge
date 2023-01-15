@@ -7,7 +7,8 @@ class UserProvider extends ChangeNotifier {
       curBal = '',
       mobile = '',
       profilePicture = '',
-      emailAdd = '';
+      emailAdd = '',
+      password = '';
   String? userId = '';
 
   String? _curPincode = '';
@@ -27,6 +28,8 @@ class UserProvider extends ChangeNotifier {
   String? get usId => userId;
 
   String get email => emailAdd;
+
+  String get pass => password;
 
   void setPincode(String pin) {
     _curPincode = pin;
@@ -66,5 +69,10 @@ class UserProvider extends ChangeNotifier {
 
   void setUserId(String? count) {
     userId = count;
+  }
+
+  void setPassword(String pass) {
+    password = pass;
+    notifyListeners();
   }
 }

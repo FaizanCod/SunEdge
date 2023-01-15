@@ -68,6 +68,8 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               .map(
                 (e) => ListTile(
                   leading: e.icon,
+                  focusColor: colors.primary,
+                  // enabled: isEnabled,
                   title: Text(
                     e.title,
                     style: TextStyle(
@@ -77,6 +79,8 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                   ),
                   horizontalTitleGap: 5,
                   onTap: () {
+                    // isEnabled = !isEnabled;
+                    // print("HELLO");
                     Navigator.pushNamed(context, e.route);
                   },
                 ),

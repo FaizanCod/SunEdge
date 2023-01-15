@@ -92,12 +92,12 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'My Bonus',
     icon: Image.asset('assets/images/bonus.png', height: 25, width: 25),
-    route: '',
+    route: '/my-bonus',
   ),
   HamburgerItems(
     title: 'My Orders',
     icon: Image.asset('assets/images/order.png', height: 25, width: 25),
-    route: '',
+    route: '/my-orders',
   ),
   HamburgerItems(
     title: 'Make Payment',
@@ -122,7 +122,7 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'New Member Registration',
     icon: Icon(Icons.person_outline_rounded, size: 25, color: Colors.black),
-    route: '',
+    route: '/new-member-registration',
   ),
   HamburgerItems(
     title: 'Distributor Id Card',
