@@ -15,6 +15,7 @@ import 'package:eshop/Provider/ProductProvider.dart';
 import 'package:eshop/Provider/UserProvider.dart';
 import 'package:eshop/Screen/MemberRegistration.dart';
 import 'package:eshop/Screen/MyBonus.dart';
+import 'package:eshop/Screen/MyNetworks.dart';
 import 'package:eshop/Screen/MyOrders.dart';
 
 import 'package:eshop/Screen/Splash.dart';
@@ -199,6 +200,7 @@ class _MyAppState extends State<MyApp> {
               '/new-member-registration': (context) => const MemberRegistration(),
               '/my-bonus': (context) => const MyBonus(),
               '/my-orders': (context) => const MyOrders(),
+              '/my-networks': (context) => const MyNetworks(),
             },
 
             // darkTheme: darkTheme,

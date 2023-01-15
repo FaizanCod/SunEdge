@@ -72,7 +72,7 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'My Network',
     icon: Image.asset('assets/images/network.png', height: 25, width: 25),
-    route: '',
+    route: '/my-networks',
   ),
   HamburgerItems(
     title: 'My Consistency',

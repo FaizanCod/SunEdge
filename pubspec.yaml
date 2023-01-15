@@ -90,6 +90,7 @@ dependencies:
   csc_picker: ^0.2.6
   dropdown_textfield: ^1.0.7
   scroll_date_picker: ^3.6.1
+  expandable_text: ^2.3.0
 
 flutter_icons:
   android: true
