@@ -31,76 +31,79 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text(
-              userProvider.curUserName,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-              ),
-            ),
-            accountEmail: Text(
-              userProvider.emailAdd,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.network(
-                  userProvider.profilePic,
-                  height: 90,
-                  width: 90,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: colors.primary,
-            ),
-          ),
-          ...hamburgerList
-              .map(
-                (e) => ListTile(
-                  leading: e.icon,
-                  focusColor: colors.primary,
-                  // enabled: isEnabled,
-                  title: Text(
-                    e.title,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: textColor,
+          SizedBox(
+            height: 120,
+            child: DrawerHeader(
+              decoration: BoxDecoration(color: colors.lightWhite2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    "assets/images/logo1.png",
+                    height: 75,
+                    width: 75,
+                  ),
+                  CircleAvatar(
+                    child: ClipOval(
+                      child: Image.network(
+                        userProvider.profilePic,
+                        height: 175,
+                        width: 175,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
-                  horizontalTitleGap: 5,
-                  onTap: () {
-                    // isEnabled = !isEnabled;
-                    // print("HELLO");
-                    Navigator.pushNamed(context, e.route);
-                  },
-                ),
-              )
-              .toList(),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            child: Text(
-              "Version - 4.0.0",
-              style: TextStyle(
-                color: Colors.grey[400],
+                ],
               ),
-              textAlign: TextAlign.end,
             ),
-            padding: EdgeInsets.only(
-              top: 0,
-              bottom: 8,
-              right: 15,
+          ),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                ...hamburgerList
+                    .map(
+                      (e) => ListTile(
+                        leading: e.icon,
+                        focusColor: colors.primary,
+                        // enabled: isEnabled,
+                        title: Text(
+                          e.title,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: textColor,
+                          ),
+                        ),
+                        horizontalTitleGap: 5,
+                        onTap: () {
+                          // isEnabled = !isEnabled;
+                          // print("HELLO");
+                          Navigator.pushNamed(context, e.route);
+                        },
+                      ),
+                    )
+                    .toList(),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  child: Text(
+                    "Version - 4.0.0",
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
+                  padding: EdgeInsets.only(
+                    top: 0,
+                    bottom: 8,
+                    right: 15,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

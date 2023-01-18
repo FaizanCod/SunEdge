@@ -17,7 +17,7 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'Categories',
     icon: Image.asset('assets/images/category.png', height: 25, width: 25,),
-    route: '',
+    route: '/categories',
   ),
   HamburgerItems(
     title: 'Brands',

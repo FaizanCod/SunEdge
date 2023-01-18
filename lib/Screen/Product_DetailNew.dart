@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-
 import 'package:collection/src/iterable_extensions.dart';
 import 'package:eshop/Helper/SqliteData.dart';
 import 'package:eshop/Screen/Cart.dart';
@@ -504,11 +503,9 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                       children: [
                         sliderList[index] != "youtube"
                             ? networkImageCommon(
-                            sliderList[index]!,
-                            height,
-                            true)
+                                sliderList[index]!, height, true)
 
-                        /*CachedNetworkImage(
+                            /*CachedNetworkImage(
                                 imageUrl: sliderList[index]!,
                                 placeholder: (BuildContext context, url) {
                                   return Image.asset(
@@ -939,7 +936,6 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
               from
                   ? Selector<CartProvider, List<SectionModel>>(
                       builder: (context, data, child) {
-
                         if (!qtyChange) {
                           SectionModel? tempId = data.firstWhereOrNull((cp) =>
                               cp.id == model.id &&
@@ -2206,6 +2202,20 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // Container(
+                                  //   padding: EdgeInsets.symmetric(
+                                  //       horizontal: 15, vertical: 10),
+                                  //   margin: EdgeInsets.symmetric(vertical: 10),
+                                  //   child: Column(
+                                  //     children: [
+                                  //       Row(
+                                  //         mainAxisAlignment:
+                                  //             MainAxisAlignment.spaceBetween,
+                                  //         children: [],
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                   Card(
                                     elevation: 0,
                                     child: Column(
@@ -2213,7 +2223,54 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                            left: 12,
+                                            right: 12,
+                                            top: 10,
+                                            bottom: 5,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color: Colors.green[400],
+                                                ),
+                                                child: Text(
+                                                  '9.72 PV',
+                                                  style: TextStyle(
+                                                      color: Color(0xfff0f0f0)),
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.star,
+                                                color: Colors.yellow[700],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         _title(data),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Item Code: 26014A', style: TextStyle(color: Colors.lightGreen[400])),
+                                              Text('Net Content: 100 ml x 3', style: TextStyle(color: Colors.lightGreen[400])),
+                                              Text('MRP : ₹402.00 (incl. of all taxes)', style: TextStyle(color: Colors.lightGreen[400])),
+                                              Text('DP : ₹350.00 (incl. of all taxes)', style: TextStyle(color: Colors.lightGreen[400])),
+                                            ],
+                                          ),
+                                        ),
                                         _rate(data),
                                         _price(_oldSelVarient, true, data),
                                         _offPrice(_oldSelVarient, data),
@@ -3722,7 +3779,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                 if (codDeliveryCharges != '')
                   Row(
                     children: [
-                      Text("${getTranslated(context,'COD_CHARGE_LBL')}: ",
+                      Text("${getTranslated(context, 'COD_CHARGE_LBL')}: ",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.lightBlack2,
                           )),
@@ -4091,13 +4148,11 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
               child: Hero(
                 tag: "$index${reviewList[i].id}${widget.secPos}",
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5.0),
-                  child:
-                  networkImageCommon(
-                      reviewList[i].imgList![index], 50, false,
-                      height: 50,
-                      width: 50)
-                  /*CachedNetworkImage(
+                    borderRadius: BorderRadius.circular(5.0),
+                    child: networkImageCommon(
+                        reviewList[i].imgList![index], 50, false,
+                        height: 50, width: 50)
+                    /*CachedNetworkImage(
                     imageUrl: reviewList[i].imgList![index],
                     height: 50.0,
                     width: 50.0,
@@ -4106,7 +4161,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                     },
                     errorWidget: (context, error, stackTrace) => erroWidget(50),
                   ),*/
-                ),
+                    ),
               ),
             ),
           );
@@ -4283,10 +4338,8 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                     },
                     child: Stack(
                       children: [
-                        networkImageCommon(
-                            revImgList[index].img!, 80, false,
-                            height: 100,
-                            width: 80),
+                        networkImageCommon(revImgList[index].img!, 80, false,
+                            height: 100, width: 80),
 
                         /*CachedNetworkImage(
                           fadeInDuration: const Duration(milliseconds: 150),

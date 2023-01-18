@@ -13,12 +13,14 @@ import 'package:eshop/Provider/ProductDetailProvider.dart';
 import 'package:eshop/Provider/ProductProvider.dart';
 
 import 'package:eshop/Provider/UserProvider.dart';
+import 'package:eshop/Screen/All_Category.dart';
 import 'package:eshop/Screen/MemberRegistration.dart';
 import 'package:eshop/Screen/MyBonus.dart';
 import 'package:eshop/Screen/MyNetworks.dart';
 import 'package:eshop/Screen/MyOrders.dart';
 
 import 'package:eshop/Screen/Splash.dart';
+import 'package:eshop/Screen/YouTubeView.dart';
 import 'package:eshop/ui/styles/themedata.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -201,6 +203,7 @@ class _MyAppState extends State<MyApp> {
               '/my-bonus': (context) => const MyBonus(),
               '/my-orders': (context) => const MyOrders(),
               '/my-networks': (context) => const MyNetworks(),
+              '/youtube': (context) => YouTubeView(),
             },
 
             // darkTheme: darkTheme,

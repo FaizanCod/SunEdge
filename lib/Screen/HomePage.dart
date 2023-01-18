@@ -158,6 +158,8 @@ class _HomePageState extends State<HomePage>
                       _getSearchBar(),
                       _slider(),
                       _catList(),
+                      _shopByPV(),
+                      _youtube(),
                       _section(),
                       _mostLike(),
                     ],
@@ -1417,6 +1419,222 @@ class _HomePageState extends State<HomePage>
               );
       },
       selector: (_, homeProvider) => homeProvider.catLoading,
+    );
+  }
+
+  _shopByPV() {
+    return Container(
+      color: Color(0xfffdfdff),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Shop By PV',
+            style: TextStyle(
+              color: colors.primary,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                child: Text(
+                  '0-25',
+                  style: TextStyle(color: Color(0xfff0f0f0)),
+                ),
+                decoration: BoxDecoration(
+                  color: colors.primary,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                child: Text(
+                  '25-50',
+                  style: TextStyle(color: Color(0xff1f1f1f)),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[300],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                child: Text(
+                  '50-100',
+                  style: TextStyle(color: Color(0xff1f1f1f)),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[300],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                child: Text('100+', style: TextStyle(color: Color(0xff1f1f1f))),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[300],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ],
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(0),
+                itemCount: 2,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _productCard(),
+                      _productCard(),
+                    ],
+                  );
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _productCard() {
+    return Card(
+      shadowColor: Colors.blueGrey[300],
+      elevation: 5,
+      child: InkWell(
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    height: 120,
+                    width: MediaQuery.of(context).size.width / 2.75,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5),
+                      ),
+                      // color: Colors.blueGrey[300],
+                    ),
+                    child: Image.asset('assets/images/logo1.png'),
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    right: 0,
+                    child: Icon(Icons.bookmark_border_outlined),
+                  )
+                ],
+              ),
+              Text(
+                '13.89 PV',
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.green[600],
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Item Code: 26015A',
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.green[600],
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Assure Soap 100 G',
+                style: TextStyle(fontSize: 11, color: Colors.grey[400]),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _youtube() {
+    return Container(
+      height: 130,
+      decoration: BoxDecoration(
+        color: colors.primary,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/images/youtube.png',
+              height: 50,
+              width: 50,
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'SUNEDGE MEDIA',
+                style: TextStyle(
+                  color: colors.secondary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Text(
+                'Stay updated on the latest happenings',
+                style: TextStyle(
+                  color: colors.secondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/youtube');
+                },
+                label: Text('Watch Now'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue[200],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                icon: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

@@ -91,6 +91,7 @@ dependencies:
   dropdown_textfield: ^1.0.7
   scroll_date_picker: ^3.6.1
   expandable_text: ^2.3.0
+  flutter_inappwebview: ^5.7.2+3
 
 flutter_icons:
   android: true
