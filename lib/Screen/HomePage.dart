@@ -159,6 +159,7 @@ class _HomePageState extends State<HomePage>
                       _slider(),
                       _catList(),
                       _shopByPV(),
+                      _achievers(),
                       _youtube(),
                       _section(),
                       _mostLike(),
@@ -1573,6 +1574,7 @@ class _HomePageState extends State<HomePage>
 
   _youtube() {
     return Container(
+      margin: EdgeInsets.only(bottom: 10),
       height: 130,
       decoration: BoxDecoration(
         color: colors.primary,
@@ -1636,6 +1638,267 @@ class _HomePageState extends State<HomePage>
         ],
       ),
     );
+  }
+
+  _achievers() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      height: 200,
+      decoration: BoxDecoration(
+        color: Color(0xfffdfdff),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 180,
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 2,
+                shadowColor: Colors.blueGrey[300],
+                child: Stack(
+                  children: [
+                    Ink.image(
+                      image: NetworkImage(
+                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
+                      fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () => _showDialog(context),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Car Fund\nAchievers',
+                        style: TextStyle(
+                          color: Colors.grey[100],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+              height: 180,
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 2,
+                shadowColor: Colors.blueGrey[300],
+                child: Stack(
+                  children: [
+                    Ink.image(
+                      image: NetworkImage(
+                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
+                      fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () => _showDialog(context),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Car Fund\nAchievers',
+                        style: TextStyle(
+                          color: Colors.grey[100],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+              height: 180,
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 2,
+                shadowColor: Colors.blueGrey[300],
+                child: Stack(
+                  children: [
+                    Ink.image(
+                      image: NetworkImage(
+                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
+                      fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () => _showDialog(context),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Car Fund\nAchievers',
+                        style: TextStyle(
+                          color: Colors.grey[100],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+              height: 180,
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 2,
+                shadowColor: Colors.blueGrey[300],
+                child: Stack(
+                  children: [
+                    Ink.image(
+                      image: NetworkImage(
+                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
+                      fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () => _showDialog(context),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Car Fund\nAchievers',
+                        style: TextStyle(
+                          color: Colors.grey[100],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      title: Stack(
+        children: [
+          Positioned(
+            right: 0,
+            child: InkWell(
+                onTap: () => Navigator.of(context).pop(),
+                child: Icon(Icons.close_rounded)),
+          ),
+          Center(
+            child: Text(
+              'Top Car Winners',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+                color: colors.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
+      content: Container(
+        height: MediaQuery.of(context).size.height * 0.75,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 5,
+                horizontal: 15,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(
+                  color: colors.primary,
+                  width: 1,
+                ),
+              ),
+              child: Text(
+                '1188',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                  color: colors.primary,
+                ),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: 50,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: 25,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 5),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 22,
+                            child: Text(
+                              'PJ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: colors.secondary,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'PREET JHUNJHUNWALA',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(context: context, builder: (context) => alert);
   }
 
   List<T> map<T>(List list, Function handler) {
