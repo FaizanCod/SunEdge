@@ -190,6 +190,7 @@ class _LoginPageState extends State<Login> with TickerProviderStateMixin {
         userProvider.setName(username ?? "");
         userProvider.setEmail(email ?? "");
         userProvider.setProfilePic(image ?? "");
+        userProvider.setPassword(password ?? "");
 
         SettingProvider settingProvider =
             Provider.of<SettingProvider>(context, listen: false);

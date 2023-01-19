@@ -2901,13 +2901,12 @@ class _HomePageState extends State<HomePage>
 
   Future<http.Response> getData() async {
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    // var password = Login().getPass();
     return http.post(getUserLoginDetailsApi,
         headers: <String, String>{
           'Content-Type': 'text/plain',
         },
         body:
-            '{"distributor_id": "${userProvider.curUserName}", "password": "${userProvider.password}", "loginuser": "$loginUser", "loginpass": "$loginPass"}');
+            '{"distributor_id": "${userProvider.curUserName}", "password": "${userProvider.pass}", "loginuser": "$loginUser", "loginpass": "$loginPass"}');
     // password to be fetched dynamically
   }
 
