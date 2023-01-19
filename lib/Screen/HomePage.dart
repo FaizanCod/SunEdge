@@ -130,6 +130,7 @@ class _HomePageState extends State<HomePage>
     user.setMobile(setting.mobile);
     user.setName(setting.userName);
     user.setEmail(setting.email);
+    user.setPassword(setting.password);
     user.setProfilePic(setting.profileUrl);
     setState(() {});
   }
@@ -2032,6 +2033,8 @@ class _HomePageState extends State<HomePage>
     user.setMobile(setting.mobile);
     user.setName(setting.userName);
     user.setEmail(setting.email);
+    print("Setting password: ${setting.password}");
+    user.setPassword(setting.password);
     user.setProfilePic(setting.profileUrl);
 
     _isNetworkAvail = await isNetworkAvailable();
@@ -2901,6 +2904,7 @@ class _HomePageState extends State<HomePage>
 
   Future<http.Response> getData() async {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    print("Password: ${userProvider.pass.toString()}");
     return http.post(getUserLoginDetailsApi,
         headers: <String, String>{
           'Content-Type': 'text/plain',
@@ -3097,7 +3101,7 @@ class _HomePageState extends State<HomePage>
                             ),
                             SizedBox(height: 14),
                             Container(
-                                width: MediaQuery.of(context).size.width * 0.70,
+                                width: MediaQuery.of(context).size.width * 0.75,
                                 padding: EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 16),
                                 decoration: BoxDecoration(

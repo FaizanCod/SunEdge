@@ -18,10 +18,12 @@ import 'package:eshop/Screen/MemberRegistration.dart';
 import 'package:eshop/Screen/MyBonus.dart';
 import 'package:eshop/Screen/MyNetworks.dart';
 import 'package:eshop/Screen/MyOrders.dart';
+import 'package:eshop/Screen/Dashboard.dart';
 
 import 'package:eshop/Screen/Splash.dart';
 import 'package:eshop/Screen/YouTubeView.dart';
 import 'package:eshop/ui/styles/themedata.dart';
+import 'package:eshop/ui/widgets/AppBarWidget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -204,6 +206,7 @@ class _MyAppState extends State<MyApp> {
               '/my-orders': (context) => const MyOrders(),
               '/my-networks': (context) => const MyNetworks(),
               '/youtube': (context) => YouTubeView(),
+              '/categories': (context) => Scaffold(appBar: getAppBar('CATEGORIES', context), body: const AllCategory()),
             },
 
             // darkTheme: darkTheme,

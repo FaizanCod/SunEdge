@@ -183,9 +183,10 @@ class _SignUpPageState extends State<SignUp> with TickerProviderStateMixin {
 
           UserProvider userProvider = context.read<UserProvider>();
           userProvider.setName(name ?? "");
+          userProvider.setEmail(password ?? "");
           setPrefrenceBool(ISFIRSTTIME, true);
           SettingProvider settingProvider = context.read<SettingProvider>();
-          settingProvider.saveUserDetail(id!, name, email, mobile, city, area,
+          settingProvider.saveUserDetail(id!, name, email, password, mobile, city, area,
               address, pincode, latitude, longitude, "", context);
 
           Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);

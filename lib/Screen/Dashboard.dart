@@ -91,7 +91,7 @@ class _HomePageState extends State<Dashboard>
           key: _scaffoldKey,
           extendBody: true,
           backgroundColor: Theme.of(context).colorScheme.lightWhite,
-          appBar: _getAppBar(),
+          appBar: getAppBar(),
           drawer: HamburgerMenu(),
           body: PageView(
             controller: _pageController,
@@ -210,7 +210,7 @@ class _HomePageState extends State<Dashboard>
     }
   }
 
-  AppBar _getAppBar() {
+  AppBar getAppBar() {
     String? title;
     if (_selBottom == 1) {
       title = getTranslated(context, 'CATEGORY');

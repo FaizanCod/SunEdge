@@ -21,17 +21,16 @@ class SettingProvider {
 
   String get userName => _sharedPreferences.getString(USERNAME) ?? "";
 
+  String get password => _sharedPreferences.getString(PASSWORD) ?? "";
+
   String get mobile => _sharedPreferences.getString(MOBILE) ?? "";
 
   String get profileUrl => _sharedPreferences.getString(IMAGE) ?? "";
 
   String? get supportedLocales => _supportedLocales;
 
-
-
   void setSupportedLocales(String locale) {
     _supportedLocales = locale;
-
   }
 
   setPrefrence(String key, String value) {
@@ -65,11 +64,7 @@ class SettingProvider {
   }
 
   Future<void> clearUserSession(BuildContext context) async {
-
-
     CUR_USERID = null;
-
-
 
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
@@ -80,6 +75,7 @@ class SettingProvider {
     userProvider.setProfilePic("");
     userProvider.setMobile("");
     userProvider.setEmail("");
+    userProvider.setPassword("");
     await _sharedPreferences.clear();
   }
 
@@ -87,6 +83,7 @@ class SettingProvider {
       String userId,
       String? name,
       String? email,
+      String? password,
       String? mobile,
       String? city,
       String? area,
@@ -101,6 +98,7 @@ class SettingProvider {
     waitList.add(_sharedPreferences.setString(ID, userId));
     waitList.add(_sharedPreferences.setString(USERNAME, name ?? ""));
     waitList.add(_sharedPreferences.setString(EMAIL, email ?? ""));
+    waitList.add(_sharedPreferences.setString(PASSWORD, password ?? ""));
     waitList.add(_sharedPreferences.setString(MOBILE, mobile ?? ""));
     waitList.add(_sharedPreferences.setString(CITY, city ?? ""));
     waitList.add(_sharedPreferences.setString(AREA, area ?? ""));
@@ -113,6 +111,7 @@ class SettingProvider {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     userProvider.setName(name ?? "");
+    userProvider.setPassword(password ?? "");
     userProvider.setBalance("");
     userProvider.setCartCount("");
     userProvider.setProfilePic(image ?? "");

@@ -197,7 +197,7 @@ class _LoginPageState extends State<Login> with TickerProviderStateMixin {
 
         setPrefrenceBool(ISFIRSTTIME, true);
 
-        settingProvider.saveUserDetail(id!, username, email, mobile, city, area,
+        settingProvider.saveUserDetail(id!, username, email, password, mobile, city, area,
             address, pincode, latitude, longitude, image, context);
         offFavAdd().then((value) {
           db.clearFav();
