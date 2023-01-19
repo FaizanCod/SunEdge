@@ -161,6 +161,7 @@ class _HomePageState extends State<HomePage>
                       _shopByPV(),
                       _achievers(),
                       _youtube(),
+                      _successStories(),
                       _section(),
                       _mostLike(),
                     ],
@@ -1899,6 +1900,118 @@ class _HomePageState extends State<HomePage>
       ),
     );
     showDialog(context: context, builder: (context) => alert);
+  }
+
+  _successStories() {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/quote.png'),
+          alignment: Alignment.topRight,
+          colorFilter: ColorFilter.mode(
+            Colors.white.withOpacity(0.1),
+            BlendMode.dstATop,
+          ),
+          scale: 4,
+        ),
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 27,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Success Stories',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: colors.primary,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: colors.primary,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 24, horizontal: 15),
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: Center(
+                        child: Text(
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel malesuada urna. Morbi dignissim ex ipsum. Nullam vel ultricies tortor, nec efficitur libero. Etiam rutrum dignissim consequat. Nunc ac nunc tristique orci consectetur porttitor at nec massa. Nam tempor eleifend nulla ac placerat. Mauris faucibus turpis augue, a pulvinar sem sagittis sit amet.',
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right:
+                          (MediaQuery.of(context).size.width * 0.75) / 2 - 20,
+                      child: Image.asset(
+                        'assets/images/user.png',
+                        height: 40,
+                        width: 40,
+                        color: colors.primary,
+                      ),
+                    )
+                  ],
+                ),
+                Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: colors.primary,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 24, horizontal: 15),
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: Center(
+                        child: Text(
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel malesuada urna. Morbi dignissim ex ipsum. Nullam vel ultricies tortor, nec efficitur libero. Etiam rutrum dignissim consequat. Nunc ac nunc tristique orci consectetur porttitor at nec massa. Nam tempor eleifend nulla ac placerat. Mauris faucibus turpis augue, a pulvinar sem sagittis sit amet.',
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right:
+                          (MediaQuery.of(context).size.width * 0.75) / 2 - 20,
+                      child: Image.asset(
+                        'assets/images/user.png',
+                        height: 40,
+                        width: 40,
+                        color: colors.primary,
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   List<T> map<T>(List list, Function handler) {
