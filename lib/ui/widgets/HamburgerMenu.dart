@@ -73,7 +73,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                         title: Text(
                           e.title,
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 14,
                             color: textColor,
                           ),
                         ),

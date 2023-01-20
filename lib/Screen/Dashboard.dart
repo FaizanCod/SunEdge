@@ -13,6 +13,7 @@ import 'package:eshop/Screen/Cart.dart';
 import 'package:eshop/Screen/Favorite.dart';
 import 'package:eshop/Screen/Login.dart';
 import 'package:eshop/Screen/MyProfile.dart';
+import 'package:eshop/Screen/Search.dart';
 import 'package:eshop/ui/widgets/HamburgerMenu.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
@@ -99,11 +100,12 @@ class _HomePageState extends State<Dashboard>
               HomePage(),
               AllCategory(),
               FlashSale(),
+              Search(),
               // Sale(),
               Cart(
                 fromBottom: true,
               ),
-              MyProfile()
+              MyProfile(),              
             ],
             onPageChanged: (index) {
               setState(() {
@@ -115,7 +117,7 @@ class _HomePageState extends State<Dashboard>
                   context.read<HomeProvider>().showBars(true);
                 }
                 _selBottom = index;
-                if (index == 3) {
+                if (index == 4) {
                   cartTotalClear();
                 }
               });
@@ -217,10 +219,12 @@ class _HomePageState extends State<Dashboard>
     } else if (_selBottom == 2) {
       title = getTranslated(context, 'OFFER');
     } else if (_selBottom == 3) {
-      title = getTranslated(context, 'MYBAG');
+      title = 'SEARCH';
     } else if (_selBottom == 4) {
+      title = getTranslated(context, 'MYBAG');
+    } else if (_selBottom == 5) {
       title = getTranslated(context, 'PROFILE');
-    }
+    } 
 
     return AppBar(
       elevation: 0,
@@ -229,7 +233,11 @@ class _HomePageState extends State<Dashboard>
       // leading: HamburgerMenu(),
       leading: IconButton(
         padding: EdgeInsets.zero,
-        icon: Icon(Icons.menu, color: colors.primary, size: 25,),
+        icon: Icon(
+          Icons.menu,
+          color: colors.primary,
+          size: 25,
+        ),
         onPressed: () {
           _scaffoldKey.currentState!.openDrawer();
         },
@@ -360,11 +368,24 @@ class _HomePageState extends State<Dashboard>
                   activeColor: colors.primary,
                 ),
                 BottomBarItem(
+                  icon: _selBottom == 3
+                      ? Image.asset(
+                          'assets/images/search-2.png',
+                          color: colors.primary,
+                        )
+                      : Image.asset(
+                          'assets/images/search-1.png',
+                          color: colors.primary,
+                        ),
+                  title: const Text('Search'),
+                  activeColor: colors.primary,
+                ),
+                BottomBarItem(
                   icon: Selector<UserProvider, String>(
                     builder: (context, data, child) {
                       return Stack(
                         children: [
-                          _selBottom == 3
+                          _selBottom == 4
                               ? SvgPicture.asset(
                                   "${imagePath}cart01.svg",
                                   color: colors.primary,
@@ -407,7 +428,7 @@ class _HomePageState extends State<Dashboard>
                   activeColor: colors.primary,
                 ),
                 BottomBarItem(
-                  icon: _selBottom == 4
+                  icon: _selBottom == 5
                       ? Image.asset(
                           'assets/images/menu.png',
                           color: colors.primary,

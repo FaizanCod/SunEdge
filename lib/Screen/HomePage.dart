@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage>
                     children: [
                       _deliverPincode(),
                       _userDashboard(),
-                      _getSearchBar(),
+                      // _getSearchBar(),
                       _slider(),
                       _catList(),
                       _shopByPV(),
@@ -1426,153 +1426,291 @@ class _HomePageState extends State<HomePage>
   }
 
   _shopByPV() {
-    return Container(
-      color: Color(0xfffdfdff),
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Shop By PV',
-            style: TextStyle(
-              color: colors.primary,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                child: Text(
-                  '0-25',
-                  style: TextStyle(color: Color(0xfff0f0f0)),
+    return Selector<HomeProvider, bool>(
+      builder: (context, data, child) {
+        return data
+            ? SizedBox(
+                width: double.infinity,
+                child: Shimmer.fromColors(
+                  baseColor: Theme.of(context).colorScheme.simmerBase,
+                  highlightColor: Theme.of(context).colorScheme.simmerHigh,
+                  child: catLoading(),
                 ),
+              )
+            : Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 decoration: BoxDecoration(
-                  color: colors.primary,
-                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                child: Text(
-                  '25-50',
-                  style: TextStyle(color: Color(0xff1f1f1f)),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      'Shop by PV',
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: colors.primary, fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      height: 125,
+                      padding: const EdgeInsets.only(top: 10, left: 10),
+                      child: ListView.builder(
+                        itemCount: catList.length < 10 ? catList.length : 10,
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return Container();
+                          } else {
+                            return Container(
+                              decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey[200]!,
+                                    spreadRadius: 1,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        5, 5), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(8),
+                                color: Theme.of(context).colorScheme.surface,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 10),
+                              margin: const EdgeInsets.symmetric(horizontal: 5),
+                              child: InkWell(
+                                onTap: () async {
+                                  if (catList[index].subList == null ||
+                                      catList[index].subList!.isEmpty) {
+                                    await Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) => ProductList(
+                                          name: catList[index].name,
+                                          id: catList[index].id,
+                                          tag: false,
+                                          fromSeller: false,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    await Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) => SubCategory(
+                                          title: catList[index].name!,
+                                          subList: catList[index].subList,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          bottom: 5.0, top: 8.0),
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).cardColor,
+                                          ),
+                                          child: Image.network(
+                                            catList[index].image!,
+                                            height: 75,
+                                            width: 75,
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 50,
+                                      child: Text(
+                                        capitalize(
+                                            catList[index].name!.toLowerCase()),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption!
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .fontColor,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 10),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                  ],
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[300],
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                child: Text(
-                  '50-100',
-                  style: TextStyle(color: Color(0xff1f1f1f)),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[300],
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                child: Text('100+', style: TextStyle(color: Color(0xff1f1f1f))),
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[300],
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-            ],
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: ListView.builder(
-                padding: const EdgeInsets.all(0),
-                itemCount: 2,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _productCard(),
-                      _productCard(),
-                    ],
-                  );
-                },
-              ),
-            ),
-          )
-        ],
-      ),
+              );
+      },
+      selector: (_, homeProvider) => homeProvider.catLoading,
     );
+
+    // return Container(
+    //   color: Color(0xfffdfdff),
+    //   margin: const EdgeInsets.symmetric(vertical: 10),
+    //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       Text(
+    //         'Shop By PV',
+    //         style: TextStyle(
+    //           color: colors.primary,
+    //           fontSize: 16,
+    //           fontWeight: FontWeight.w600,
+    //         ),
+    //       ),
+    //       SizedBox(
+    //         height: 10,
+    //       ),
+    //       Row(
+    //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //         children: [
+    //           Container(
+    //             padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+    //             child: Text(
+    //               '0-25',
+    //               style: TextStyle(color: Color(0xfff0f0f0)),
+    //             ),
+    //             decoration: BoxDecoration(
+    //               color: colors.primary,
+    //               borderRadius: BorderRadius.circular(15),
+    //             ),
+    //           ),
+    //           Container(
+    //             padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+    //             child: Text(
+    //               '25-50',
+    //               style: TextStyle(color: Color(0xff1f1f1f)),
+    //             ),
+    //             decoration: BoxDecoration(
+    //               color: Colors.blueGrey[300],
+    //               borderRadius: BorderRadius.circular(15),
+    //             ),
+    //           ),
+    //           Container(
+    //             padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+    //             child: Text(
+    //               '50-100',
+    //               style: TextStyle(color: Color(0xff1f1f1f)),
+    //             ),
+    //             decoration: BoxDecoration(
+    //               color: Colors.blueGrey[300],
+    //               borderRadius: BorderRadius.circular(15),
+    //             ),
+    //           ),
+    //           Container(
+    //             padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+    //             child: Text('100+', style: TextStyle(color: Color(0xff1f1f1f))),
+    //             decoration: BoxDecoration(
+    //               color: Colors.blueGrey[300],
+    //               borderRadius: BorderRadius.circular(15),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //       SingleChildScrollView(
+    //         scrollDirection: Axis.vertical,
+    //         physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+    //         child: Container(
+    //           padding: EdgeInsets.symmetric(vertical: 12),
+    //           child: ListView.builder(
+    //             padding: const EdgeInsets.all(0),
+    //             itemCount: 2,
+    //             shrinkWrap: true,
+    //             itemBuilder: (context, index) {
+    //               return Row(
+    //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //                 children: [
+    //                   _productCard(),
+    //                   _productCard(),
+    //                 ],
+    //               );
+    //             },
+    //           ),
+    //         ),
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 
-  _productCard() {
-    return Card(
-      shadowColor: Colors.blueGrey[300],
-      elevation: 5,
-      child: InkWell(
-        onTap: () {},
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 120,
-                    width: MediaQuery.of(context).size.width / 2.75,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5),
-                      ),
-                      // color: Colors.blueGrey[300],
-                    ),
-                    child: Image.asset('assets/images/logo1.png'),
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 0,
-                    child: Icon(Icons.bookmark_border_outlined),
-                  )
-                ],
-              ),
-              Text(
-                '13.89 PV',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.green[600],
-                    fontWeight: FontWeight.w600),
-              ),
-              Text(
-                'Item Code: 26015A',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.green[600],
-                    fontWeight: FontWeight.w600),
-              ),
-              Text(
-                'Assure Soap 100 G',
-                style: TextStyle(fontSize: 11, color: Colors.grey[400]),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // _productCard() {
+  //   return Card(
+  //     shadowColor: Colors.blueGrey[300],
+  //     elevation: 5,
+  //     child: InkWell(
+  //       onTap: () {},
+  //       child: Padding(
+  //         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Stack(
+  //               children: [
+  //                 Container(
+  //                   height: 120,
+  //                   width: MediaQuery.of(context).size.width / 2.75,
+  //                   decoration: BoxDecoration(
+  //                     borderRadius: BorderRadius.only(
+  //                       topLeft: Radius.circular(5),
+  //                       topRight: Radius.circular(5),
+  //                     ),
+  //                     // color: Colors.blueGrey[300],
+  //                   ),
+  //                   child: Image.asset('assets/images/logo1.png'),
+  //                 ),
+  //                 Positioned(
+  //                   bottom: 5,
+  //                   right: 0,
+  //                   child: Icon(Icons.bookmark_border_outlined),
+  //                 )
+  //               ],
+  //             ),
+  //             Text(
+  //               '13.89 PV',
+  //               style: TextStyle(
+  //                   fontSize: 12,
+  //                   color: Colors.green[600],
+  //                   fontWeight: FontWeight.w600),
+  //             ),
+  //             Text(
+  //               'Item Code: 26015A',
+  //               style: TextStyle(
+  //                   fontSize: 12,
+  //                   color: Colors.green[600],
+  //                   fontWeight: FontWeight.w600),
+  //             ),
+  //             Text(
+  //               'Assure Soap 100 G',
+  //               style: TextStyle(fontSize: 11, color: Colors.grey[400]),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   _youtube() {
     return Container(

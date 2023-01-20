@@ -14,16 +14,21 @@ import 'package:eshop/Provider/ProductProvider.dart';
 
 import 'package:eshop/Provider/UserProvider.dart';
 import 'package:eshop/Screen/All_Category.dart';
+import 'package:eshop/Screen/Customer_Support.dart';
 import 'package:eshop/Screen/MemberRegistration.dart';
 import 'package:eshop/Screen/MyBonus.dart';
 import 'package:eshop/Screen/MyNetworks.dart';
 import 'package:eshop/Screen/MyOrders.dart';
 import 'package:eshop/Screen/Dashboard.dart';
+import 'package:eshop/Screen/MyProfile.dart';
+import 'package:eshop/Screen/Privacy_Policy.dart';
+import 'package:eshop/Screen/ReferEarn.dart';
 
 import 'package:eshop/Screen/Splash.dart';
 import 'package:eshop/Screen/YouTubeView.dart';
 import 'package:eshop/ui/styles/themedata.dart';
 import 'package:eshop/ui/widgets/AppBarWidget.dart';
+import 'package:eshop/ui/widgets/SimpleAppBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +37,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/Demo_Localization.dart';
@@ -206,7 +212,17 @@ class _MyAppState extends State<MyApp> {
               '/my-orders': (context) => const MyOrders(),
               '/my-networks': (context) => const MyNetworks(),
               '/youtube': (context) => YouTubeView(),
-              '/categories': (context) => Scaffold(appBar: getAppBar('CATEGORIES', context), body: const AllCategory()),
+              '/categories': (context) => Scaffold(appBar: getSimpleAppBar('CATEGORIES', context), body: const AllCategory()),
+              '/contact': (context) => PrivacyPolicy(title: getTranslated(context, 'CONTACT_LBL'),),
+              '/about': (context) => Scaffold(appBar: getSimpleAppBar('About Us', context), body: Container()),
+              '/profile': (context) => const MyProfile(),
+              '/refer': (context) => const ReferEarn(),
+              '/customer-support': (context) => const CustomerSupport(),
+              '/share': (context) { 
+                var str = "$appName\n\n${getTranslated(context, 'APPFIND')}$androidLink$packageName\n\n ${getTranslated(context, 'IOSLBL')}\n$iosLink"; 
+                Share.share(str);
+                return Scaffold(appBar: getSimpleAppBar('Share', context), body: Container());
+              }
             },
 
             // darkTheme: darkTheme,
