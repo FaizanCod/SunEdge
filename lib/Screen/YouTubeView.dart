@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:eshop/Helper/Constant.dart';
+import 'package:eshop/ui/widgets/SimpleAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 class YouTubeView extends StatefulWidget {
@@ -16,11 +17,7 @@ class _YouTubeViewState extends State<YouTubeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('YouTube'),
-        elevation: 0,
-        centerTitle: true,
-      ),
+      appBar: getSimpleAppBar('YouTube', context),
       body: Stack(
         children: [
           WebView(
