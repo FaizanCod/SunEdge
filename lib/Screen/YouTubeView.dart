@@ -21,7 +21,7 @@ class _YouTubeViewState extends State<YouTubeView> {
       body: Stack(
         children: [
           WebView(
-            initialUrl: youtubeBaseUrl + '@NASA',
+            initialUrl: youtubeBaseUrl + 'channel/UCYjaXtDAfV52OfOCwVcSw1g',
             javascriptMode: JavascriptMode.unrestricted,
             onPageFinished: (finish) {
               setState(() {

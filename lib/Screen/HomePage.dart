@@ -25,6 +25,7 @@ import 'package:eshop/Provider/UserProvider.dart';
 import 'package:eshop/Screen/Search.dart';
 
 import 'package:eshop/Screen/SubCategory.dart';
+import 'package:eshop/ui/widgets/WebViewWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -38,6 +39,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:version/version.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../Provider/ProductDetailProvider.dart';
 import '../Provider/ProductProvider.dart';
@@ -1804,27 +1806,19 @@ class _HomePageState extends State<HomePage>
                 ),
                 elevation: 2,
                 shadowColor: Colors.blueGrey[300],
-                child: Stack(
-                  children: [
-                    Ink.image(
-                      image: NetworkImage(
-                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
-                      fit: BoxFit.cover,
-                      child: InkWell(
-                        onTap: () => _showDialog(context),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Car Fund\nAchievers',
-                        style: TextStyle(
-                          color: Colors.grey[100],
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            WebViewWidget(route: '1', idx: 0)),
+                  ),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/logo1.png'),
+                    image: NetworkImage(
+                        'https://mysunedge.com/uploads/apkimages/div1.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -1841,27 +1835,19 @@ class _HomePageState extends State<HomePage>
                 ),
                 elevation: 2,
                 shadowColor: Colors.blueGrey[300],
-                child: Stack(
-                  children: [
-                    Ink.image(
-                      image: NetworkImage(
-                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
-                      fit: BoxFit.cover,
-                      child: InkWell(
-                        onTap: () => _showDialog(context),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Car Fund\nAchievers',
-                        style: TextStyle(
-                          color: Colors.grey[100],
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            WebViewWidget(route: '8', idx: 0)),
+                  ),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/logo1.png'),
+                    image: NetworkImage(
+                        'https://mysunedge.com/uploads/apkimages/div2.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -1878,64 +1864,19 @@ class _HomePageState extends State<HomePage>
                 ),
                 elevation: 2,
                 shadowColor: Colors.blueGrey[300],
-                child: Stack(
-                  children: [
-                    Ink.image(
-                      image: NetworkImage(
-                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
-                      fit: BoxFit.cover,
-                      child: InkWell(
-                        onTap: () => _showDialog(context),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Car Fund\nAchievers',
-                        style: TextStyle(
-                          color: Colors.grey[100],
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              height: 180,
-              width: MediaQuery.of(context).size.width / 3.5,
-              child: Card(
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                elevation: 2,
-                shadowColor: Colors.blueGrey[300],
-                child: Stack(
-                  children: [
-                    Ink.image(
-                      image: NetworkImage(
-                          'https://www.motorbeam.com/wp-content/uploads/Tata-Harrier-Front-1200x900.jpg'),
-                      fit: BoxFit.cover,
-                      child: InkWell(
-                        onTap: () => _showDialog(context),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Car Fund\nAchievers',
-                        style: TextStyle(
-                          color: Colors.grey[100],
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            WebViewWidget(route: '9', idx: 0)),
+                  ),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/logo1.png'),
+                    image: NetworkImage(
+                        'https://mysunedge.com/uploads/apkimages/div3.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -1945,101 +1886,101 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  _showDialog(BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      title: Stack(
-        children: [
-          Positioned(
-            right: 0,
-            child: InkWell(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(Icons.close_rounded)),
-          ),
-          Center(
-            child: Text(
-              'Top Car Winners',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w300,
-                color: colors.primary,
-              ),
-            ),
-          ),
-        ],
-      ),
-      content: Container(
-        height: MediaQuery.of(context).size.height * 0.75,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 15,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(
-                  color: colors.primary,
-                  width: 1,
-                ),
-              ),
-              child: Text(
-                '1188',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
-                  color: colors.primary,
-                ),
-              ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 50,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: 25,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 5),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 22,
-                            child: Text(
-                              'PJ',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: colors.secondary,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'PREET JHUNJHUNWALA',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    showDialog(context: context, builder: (context) => alert);
-  }
+  // _showDialog(BuildContext context) {
+  //   AlertDialog alert = AlertDialog(
+  //     title: Stack(
+  //       children: [
+  //         Positioned(
+  //           right: 0,
+  //           child: InkWell(
+  //               onTap: () => Navigator.of(context).pop(),
+  //               child: Icon(Icons.close_rounded)),
+  //         ),
+  //         Center(
+  //           child: Text(
+  //             'Top Car Winners',
+  //             style: TextStyle(
+  //               fontSize: 16,
+  //               fontWeight: FontWeight.w300,
+  //               color: colors.primary,
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //     content: Container(
+  //       height: MediaQuery.of(context).size.height * 0.75,
+  //       width: MediaQuery.of(context).size.width * 0.8,
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //         children: [
+  //           Container(
+  //             padding: EdgeInsets.symmetric(
+  //               vertical: 5,
+  //               horizontal: 15,
+  //             ),
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(50),
+  //               border: Border.all(
+  //                 color: colors.primary,
+  //                 width: 1,
+  //               ),
+  //             ),
+  //             child: Text(
+  //               '1188',
+  //               style: TextStyle(
+  //                 fontSize: 16,
+  //                 fontWeight: FontWeight.w300,
+  //                 color: colors.primary,
+  //               ),
+  //             ),
+  //           ),
+  //           Expanded(
+  //             child: SizedBox(
+  //               height: 50,
+  //               child: ListView.builder(
+  //                 shrinkWrap: true,
+  //                 scrollDirection: Axis.vertical,
+  //                 itemCount: 25,
+  //                 itemBuilder: (BuildContext context, int index) {
+  //                   return Padding(
+  //                     padding: const EdgeInsets.symmetric(
+  //                         vertical: 10.0, horizontal: 5),
+  //                     child: Row(
+  //                       children: [
+  //                         CircleAvatar(
+  //                           radius: 22,
+  //                           child: Text(
+  //                             'PJ',
+  //                             style: TextStyle(
+  //                               fontSize: 16,
+  //                               color: colors.secondary,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                         SizedBox(
+  //                           width: 10,
+  //                         ),
+  //                         Text(
+  //                           'PREET JHUNJHUNWALA',
+  //                           style: TextStyle(
+  //                             fontSize: 16,
+  //                             fontWeight: FontWeight.w300,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   );
+  //                 },
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  //   showDialog(context: context, builder: (context) => alert);
+  // }
 
   _successStories() {
     return Container(
