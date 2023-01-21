@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:eshop/Helper/Constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 class YouTubeView extends StatefulWidget {
   @override
   _YouTubeViewState createState() => _YouTubeViewState();
@@ -9,7 +9,7 @@ class YouTubeView extends StatefulWidget {
 
 class _YouTubeViewState extends State<YouTubeView> {
   double _progress = 0;
-  InAppWebViewController? webViewController;
+
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -23,18 +23,19 @@ class _YouTubeViewState extends State<YouTubeView> {
       ),
       body: Stack(
         children: [
-          InAppWebView(
-            onZoomScaleChanged: (controller, oldScale, newScale) =>
-                newScale = 2,
-            initialUrlRequest: URLRequest(
-              url: Uri.parse('https://www.youtube.com/NASA'),
-            ),
-            onWebViewCreated: ((controller) => webViewController = controller),
-            onProgressChanged: ((controller, progress) {
+          WebView(
+            initialUrl: youtubeBaseUrl + '@NASA',
+            javascriptMode: JavascriptMode.unrestricted,
+            onPageFinished: (finish) {
+              setState(() {
+                _progress = 1;
+              });
+            },
+            onProgress: (int progress) {
               setState(() {
                 _progress = progress / 100;
               });
-            }),
+            },
           ),
           _progress < 1
               ? SizedBox(
