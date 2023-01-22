@@ -22,7 +22,7 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'Brands',
     icon: Image.asset('assets/images/price-tag.png', height: 25, width: 25),
-    route: ''
+    route: '/maintenance'
   ),
   HamburgerItems(
     title: 'My Dashboard',
@@ -37,37 +37,37 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'Birthday List',
     icon: Image.asset('assets/images/giftbox.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'WishList',
     icon: Image.asset('assets/images/wishlist.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'Schemes',
     icon: Image.asset('assets/images/giftbox.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'My Group PV',
     icon: Image.asset('assets/images/chart.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'My KYC',
     icon: Image.asset('assets/images/user-id.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'PAN Details',
     icon: Image.asset('assets/images/user-id.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'DAF Details',
     icon: Image.asset('assets/images/user-id.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'My Network',
@@ -77,17 +77,17 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'My Consistency',
     icon: Image.asset('assets/images/consistency.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'My Funds',
     icon: Image.asset('assets/images/funds.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'My Voucher',
     icon: Image.asset('assets/images/voucher.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'My Bonus',
@@ -102,22 +102,22 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'Make Payment',
     icon: Image.asset('assets/images/payment.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'My Training',
     icon: Image.asset('assets/images/training.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'SunEdge Branches',
     icon: Image.asset('assets/images/branches.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'Recommendation',
     icon: Image.asset('assets/images/recommendation.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'New Member Registration',
@@ -127,7 +127,7 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'Distributor Id Card',
     icon: Image.asset('assets/images/user-id.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'Refer a Friend',
@@ -137,17 +137,17 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'My Prospect',
     icon: Image.asset('assets/images/prospect.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'Change Password',
     icon: Icon(Icons.lock_outline_rounded, size: 25, color: Colors.black),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'Update Mobile Number',
     icon: Image.asset('assets/images/update-mobile.png', height: 25, width: 25),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'About Us',
@@ -167,7 +167,7 @@ List<HamburgerItems> hamburgerList = [
   HamburgerItems(
     title: 'Logged-in Devices',
     icon: Icon(Icons.devices_rounded, size: 25, color: Colors.black),
-    route: '',
+    route: '/maintenance',
   ),
   HamburgerItems(
     title: 'Contact Us',

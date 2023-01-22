@@ -15,6 +15,7 @@ import 'package:eshop/Provider/ProductProvider.dart';
 import 'package:eshop/Provider/UserProvider.dart';
 import 'package:eshop/Screen/All_Category.dart';
 import 'package:eshop/Screen/Customer_Support.dart';
+import 'package:eshop/Screen/MaintenanceScreen.dart';
 import 'package:eshop/Screen/MemberRegistration.dart';
 import 'package:eshop/Screen/MyBonus.dart';
 import 'package:eshop/Screen/MyNetworks.dart';
@@ -50,9 +51,6 @@ import 'Provider/SettingProvider.dart';
 import 'Provider/order_provider.dart';
 import 'Screen/Dashboard.dart';
 import 'Screen/Login.dart';
-
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -207,24 +205,35 @@ class _MyAppState extends State<MyApp> {
               '/': (context) => const Splash(),
               '/home': (context) => const Dashboard(),
               '/login': (context) => const Login(),
-              '/new-member-registration': (context) => const MemberRegistration(),
+              '/new-member-registration': (context) =>
+                  const MemberRegistration(),
               '/my-bonus': (context) => const MyBonus(),
               '/my-orders': (context) => const MyOrders(),
               '/my-networks': (context) => const MyNetworks(),
               '/youtube': (context) => YouTubeView(),
-              '/categories': (context) => Scaffold(appBar: getSimpleAppBar('CATEGORIES', context), body: const AllCategory()),
-              '/contact': (context) => PrivacyPolicy(title: getTranslated(context, 'CONTACT_LBL'),),
-              '/about': (context) => Scaffold(appBar: getSimpleAppBar('About Us', context), body: Container()),
+              '/categories': (context) => Scaffold(
+                  appBar: getSimpleAppBar('CATEGORIES', context),
+                  body: const AllCategory()),
+              '/contact': (context) => PrivacyPolicy(
+                    title: getTranslated(context, 'CONTACT_LBL'),
+                  ),
+              '/about': (context) => Scaffold(
+                  appBar: getSimpleAppBar('About Us', context),
+                  body: Container()),
               '/profile': (context) => const MyProfile(),
               '/refer': (context) => const ReferEarn(),
               '/customer-support': (context) => const CustomerSupport(),
-              '/share': (context) { 
-                var str = "$appName\n\n${getTranslated(context, 'APPFIND')}$androidLink$packageName\n\n ${getTranslated(context, 'IOSLBL')}\n$iosLink"; 
+              '/share': (context) {
+                var str =
+                    "$appName\n\n${getTranslated(context, 'APPFIND')}$androidLink$packageName\n\n ${getTranslated(context, 'IOSLBL')}\n$iosLink";
                 Share.share(str);
-                return Scaffold(appBar: getSimpleAppBar('Share', context), body: Container());
-              }
+                return Scaffold(
+                  appBar: getSimpleAppBar('Share', context),
+                  body: Container(),
+                );
+              },
+              '/maintenance': (context) => const MaintenanceScreen(),
             },
-
             // darkTheme: darkTheme,
 
             themeMode: themeNotifier.getThemeMode(),

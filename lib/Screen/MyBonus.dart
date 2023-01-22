@@ -1,5 +1,8 @@
 import 'package:eshop/Helper/Color.dart';
+import 'package:eshop/Provider/SettingProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyBonus extends StatefulWidget {
   const MyBonus({Key? key}) : super(key: key);
@@ -11,6 +14,7 @@ class MyBonus extends StatefulWidget {
 class _MyBonusState extends State<MyBonus> {
   @override
   Widget build(BuildContext context) {
+    SettingProvider settingsProvider = Provider.of<SettingProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colors.primary,
@@ -86,7 +90,7 @@ class _MyBonusState extends State<MyBonus> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
                   child: Text(
-                    'AMOL PARAKH (50155353)',
+                    settingsProvider.userName,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -145,9 +149,22 @@ class _MyBonusState extends State<MyBonus> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset('assets/images/search.png', width: 100, height: 100, color: Colors.blueAccent,),
-                    SizedBox(height: 10,),
-                    Text('NO RESULTS FOUND', style: TextStyle(color: Colors.grey[500], fontSize: 12, fontWeight: FontWeight.w500),),
+                    Image.asset(
+                      'assets/images/search.png',
+                      width: 100,
+                      height: 100,
+                      color: Colors.blueAccent,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'NO RESULTS FOUND',
+                      style: TextStyle(
+                          color: Colors.grey[500],
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ],
                 ),
               ),
