@@ -56,7 +56,7 @@ class StateSection extends State<SectionList> with TickerProviderStateMixin {
   late List<String> attsubList;
   late List<String> attListId;
   String? filter = "", selId = "";
-  bool listType = true, _isProgress = false;
+  bool listType = false, _isProgress = false;
   int? total = 0, offset;
   final List<TextEditingController> _controller = [];
   late UserProvider userProvidser;
@@ -1706,6 +1706,22 @@ class StateSection extends State<SectionList> with TickerProviderStateMixin {
                                     return placeHolder(width);
                                   },
                                 ),*/
+                              ),
+                            ),
+                            Positioned(
+                              top: 7,
+                              right: 10,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.green[400],
+                                ),
+                                child: Text(
+                                  '${model.madein} PV',
+                                  style: TextStyle(fontSize: 12, color: Color(0xfff0f0f0)),
+                                ),
                               ),
                             ),
                             model.availability == "0"

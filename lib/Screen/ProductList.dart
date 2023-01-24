@@ -81,7 +81,7 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
       GlobalKey<RefreshIndicatorState>();
   Animation? buttonSqueezeanimation;
   AnimationController? buttonController;
-  bool listType = true;
+  bool listType = false;
   final List<TextEditingController> _controller = [];
   List<String>? tagList = [];
   ChoiceChip? tagChip, choiceChip;
@@ -357,8 +357,7 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
                                             children: [
                                               networkImageCommon(
                                                   model.image!, 125, false,
-                                                  height: 125,
-                                                  width: 110),
+                                                  height: 125, width: 110),
                                               /*CachedNetworkImage(
                                                   imageUrl: model.image!,
                                                   height: 125.0,
@@ -1302,13 +1301,12 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
                                       topLeft: Radius.circular(5),
                                       topRight: Radius.circular(5)),
                                   child: Hero(
-                                    tag: "$proListHero$index${model.id}0",
-                                    child: networkImageCommon(
-                                        model.image!, width, false,
-                                        height: double.maxFinite,
-                                        width: double
-                                            .maxFinite)
-                                    /*CachedNetworkImage(
+                                      tag: "$proListHero$index${model.id}0",
+                                      child: networkImageCommon(
+                                          model.image!, width, false,
+                                          height: double.maxFinite,
+                                          width: double.maxFinite)
+                                      /*CachedNetworkImage(
                                       fadeInDuration:
                                           const Duration(milliseconds: 150),
                                       imageUrl: model.image!,
@@ -1324,7 +1322,7 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
                                           (context, error, stackTrace) =>
                                               erroWidget(width),
                                     ),*/
-                                  )),
+                                      )),
                               Positioned.fill(
                                   child: model.availability == "0"
                                       ? Container(
