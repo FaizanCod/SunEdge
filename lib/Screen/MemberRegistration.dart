@@ -115,7 +115,7 @@ class _SignupState extends State<MemberRegistration> {
                 height: 10,
               ),
               CSCPicker(
-                defaultCountry: DefaultCountry.India,
+                defaultCountry: CscCountry.India,
                 onCountryChanged: (value) {
                   setState(() {
                     countryValue = value;

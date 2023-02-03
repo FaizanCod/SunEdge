@@ -920,19 +920,15 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
               Text(
                   widget.saleIndex != null
                       ? dataModel.saleList[widget.saleIndex!].status == "1"
-                          ? getPriceFormat(
-                              context,
-                              double.parse(
-                                  model.prVarientList![pos].saleFinalPrice!))!
+                          ? 'DP : ${getPriceFormat(context, double.parse(model.prVarientList![pos].saleFinalPrice!))!}'
                           : '${getPriceFormat(context, price)!} '
                       : model.isSalesOn == "1"
-                          ? getPriceFormat(
-                              context,
-                              double.parse(
-                                  model.prVarientList![pos].saleFinalPrice!))!
-                          : '${getPriceFormat(context, price)!} ',
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                      color: Theme.of(context).colorScheme.fontColor)),
+                          ? 'DP : ${getPriceFormat(context, double.parse(model.prVarientList![pos].saleFinalPrice!))!}'
+                          : 'DP : ${getPriceFormat(context, price)!} ',
+                  style: TextStyle(
+                      color: Colors.lightGreen[400],
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold)),
               from
                   ? Selector<CartProvider, List<SectionModel>>(
                       builder: (context, data, child) {
@@ -1179,19 +1175,14 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _inclusiveTaxText(),
               Row(
                 children: <Widget>[
                   Text(
-                    '${getPriceFormat(context, double.parse(model.prVarientList![pos].price!))!} ',
-                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        decoration: TextDecoration.lineThrough,
-                        letterSpacing: 0,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .fontColor
-                            .withOpacity(0.7)),
-                  ),
+                      'MRP : ${getPriceFormat(context, double.parse(model.prVarientList![pos].price!))!} ',
+                      style: TextStyle(
+                          color: Colors.lightGreen[400],
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
                   Text(
                       widget.saleIndex != null
                           ? dataModel.saleList[widget.saleIndex!].status == "1"
@@ -1210,6 +1201,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                           .copyWith(color: colors.primary, letterSpacing: 0)),
                 ],
               ),
+              _inclusiveTaxText(),
             ],
           ),
         );
@@ -2231,8 +2223,8 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                             bottom: 5,
                                           ),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            // mainAxisAlignment:
+                                            //     MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
                                                 padding: EdgeInsets.symmetric(
@@ -2257,20 +2249,28 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                           ),
                                         ),
                                         _title(data),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Item Code: 26014A', style: TextStyle(color: Colors.lightGreen[400])),
-                                              Text('Net Content: 100 ml x 3', style: TextStyle(color: Colors.lightGreen[400])),
-                                              Text('MRP : ₹402.00 (incl. of all taxes)', style: TextStyle(color: Colors.lightGreen[400])),
-                                              Text('DP : ₹350.00 (incl. of all taxes)', style: TextStyle(color: Colors.lightGreen[400])),
-                                            ],
-                                          ),
-                                        ),
+                                        // Container(
+                                        //   padding: EdgeInsets.symmetric(
+                                        //       horizontal: 10),
+                                        //   child: Column(
+                                        //     crossAxisAlignment:
+                                        //         CrossAxisAlignment.start,
+                                        //     children: [
+                                        //            Text('Item Code: 26014A', style: TextStyle(color: Colors.lightGreen[400])),
+                                        //         Text('Net Content: 100 ml x 3', style: TextStyle(color: Colors.lightGreen[400])),
+                                        //       Text(
+                                        //           'MRP : ₹402.00 (incl. of all taxes)',
+                                        //           style: TextStyle(
+                                        //               color: Colors
+                                        //                   .lightGreen[400])),
+                                        //       Text(
+                                        //           'DP : ₹350.00 (incl. of all taxes)',
+                                        //           style: TextStyle(
+                                        //               color: Colors
+                                        //                   .lightGreen[400])),
+                                        //     ],
+                                        //   ),
+                                        // ),
                                         _rate(data),
                                         _price(_oldSelVarient, true, data),
                                         _offPrice(_oldSelVarient, data),

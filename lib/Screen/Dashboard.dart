@@ -105,7 +105,7 @@ class _HomePageState extends State<Dashboard>
               Cart(
                 fromBottom: true,
               ),
-              MyProfile(),              
+              MyProfile(),
             ],
             onPageChanged: (index) {
               setState(() {
@@ -224,7 +224,7 @@ class _HomePageState extends State<Dashboard>
       title = getTranslated(context, 'MYBAG');
     } else if (_selBottom == 5) {
       title = getTranslated(context, 'PROFILE');
-    } 
+    }
 
     return AppBar(
       elevation: 0,

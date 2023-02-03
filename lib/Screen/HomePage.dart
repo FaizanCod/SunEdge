@@ -99,13 +99,11 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-
     callApi();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
-
     buttonSqueezeanimation = Tween(
-      begin: deviceWidth! * 0.7,
+      begin: 30,
       end: 50.0,
     ).animate(CurvedAnimation(
       parent: buttonController,
@@ -141,6 +139,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    deviceWidth = MediaQuery.of(context).size.width;
     UserProvider userDetails =
         Provider.of<UserProvider>(context, listen: false);
     hideAppbarAndBottomBarOnScroll(_scrollBottomBarController, context);
@@ -163,7 +162,9 @@ class _HomePageState extends State<HomePage>
                       // _getSearchBar(),
                       _slider(),
                       _catList(),
-                      _shopByPV(),
+                      sectionList.isEmpty
+                          ? CircularProgressIndicator()
+                          : _shopByPV(),
                       // _section(),
                       _achievers(),
                       _youtube(),
@@ -389,6 +390,7 @@ class _HomePageState extends State<HomePage>
                           CupertinoPageRoute(
                             builder: (context) => SectionList(
                               index: index,
+                              title: '',
                               section_model: model,
                               from: from,
                               productList: productList,
@@ -859,68 +861,74 @@ class _HomePageState extends State<HomePage>
                           topRight: Radius.circular(5)),
                       child: Stack(
                         children: [
-                          Center(
-                            child: Hero(
-                              transitionOnUserGestures: true,
-                              tag: "$homeHero$index${product.id}$secPos",
-                              child: networkImageCommon(
-                                product.image!,
-                                width,
-                                false,
-                                height: 90,
-                                width: 90,
-                              ), /*CachedNetworkImage(
-                                fadeInDuration: const Duration(milliseconds: 150),
-                                imageUrl: product.image!,
-                                height: double.maxFinite,
-                                width: double.maxFinite,
-                                fit: extendImg ? BoxFit.fill : BoxFit.fitHeight,
-                                errorWidget: (context, error, stackTrace) =>
-                                    erroWidget(double.maxFinite),
-                                //fit: BoxFit.fill,
-                                placeholder: (context, url) {
-                                  return placeHolder(width);
-                                }),*/
+                          Positioned(
+                            child: Center(
+                              child: Hero(
+                                transitionOnUserGestures: true,
+                                tag: "$homeHero$index${product.id}$secPos",
+                                child: networkImageCommon(
+                                  product.image!,
+                                  width,
+                                  false,
+                                  height: 90,
+                                  width: 90,
+                                ), /*CachedNetworkImage(
+                                  fadeInDuration: const Duration(milliseconds: 150),
+                                  imageUrl: product.image!,
+                                  height: double.maxFinite,
+                                  width: double.maxFinite,
+                                  fit: extendImg ? BoxFit.fill : BoxFit.fitHeight,
+                                  errorWidget: (context, error, stackTrace) =>
+                                      erroWidget(double.maxFinite),
+                                  //fit: BoxFit.fill,
+                                  placeholder: (context, url) {
+                                    return placeHolder(width);
+                                  }),*/
+                              ),
                             ),
                           ),
                           Positioned(
                             bottom: 5,
                             right: 0,
                             child: Icon(Icons.bookmark_border_outlined),
-                          )
+                          ),
+                          Positioned(
+                            top: 7,
+                            right: 10,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.green[400],
+                              ),
+                              child: Text(
+                                '${product.madein!} PV',
+                                style: TextStyle(
+                                    fontSize: 12, color: Color(0xfff0f0f0)),
+                              ),
+                            ),
+                          ),
                         ],
                       )),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                      start: 10.0,
-                      top: 5,
-                    ),
-                    child: Text(
-                      '${product.madein!} PV',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.green[600],
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.only(start: 10.0, top: 2),
-                    child: Text(
-                      // product.isSalesOn == "1"
-                      //     ? getPriceFormat(
-                      //         context,
-                      //         double.parse(
-                      //             product.prVarientList![0].saleFinalPrice!))!
-                      //     : '${getPriceFormat(context, price)!} ',
-                      'Item Code: 22042A',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.green[600],
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
+
+                  // Padding(
+                  //   padding:
+                  //       const EdgeInsetsDirectional.only(start: 10.0, top: 2),
+                  //   child: Text(
+                  //     // product.isSalesOn == "1"
+                  //     //     ? getPriceFormat(
+                  //     //         context,
+                  //     //         double.parse(
+                  //     //             product.prVarientList![0].saleFinalPrice!))!
+                  //     //     : '${getPriceFormat(context, price)!} ',
+                  //     'Item Code: 22042A',
+                  //     style: TextStyle(
+                  //         fontSize: 12,
+                  //         color: Colors.green[600],
+                  //         fontWeight: FontWeight.w600),
+                  //   ),
+                  // ),
                   Padding(
                     padding:
                         const EdgeInsetsDirectional.only(start: 10.0, top: 2),
@@ -930,51 +938,58 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   Padding(
+                    padding:
+                        const EdgeInsetsDirectional.only(start: 10.0, top: 2),
+                    child: Text(
+                      double.parse(product.prVarientList![0].disPrice!) !=
+                              0 //model
+                          ? 'DP ${getPriceFormat(context, double.parse(product.prVarientList![0].disPrice!))!}'
+                          : "",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.green[600],
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsetsDirectional.only(
                         start: 10.0, bottom: 8, top: 2),
-                    child: double.parse(product.prVarientList![0].disPrice!) !=
-                            0
-                        ? Row(
-                            children: <Widget>[
-                              Text(
-                                double.parse(product
-                                            .prVarientList![0].disPrice!) !=
-                                        0
-                                    ? getPriceFormat(
-                                        context,
-                                        double.parse(
-                                            product.prVarientList![0].price!))!
-                                    : "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .overline!
-                                    .copyWith(
-                                        decoration: TextDecoration.lineThrough,
-                                        letterSpacing: 0,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .fontColor
-                                            .withOpacity(0.6)),
+                    child:
+                        double.parse(product.prVarientList![0].disPrice!) != 0
+                            ? Row(
+                                children: <Widget>[
+                                  Text(
+                                    double.parse(product
+                                                .prVarientList![0].disPrice!) !=
+                                            0
+                                        ? 'MRP ${getPriceFormat(context, double.parse(product.prVarientList![0].price!))!}'
+                                        : "",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.green[600],
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                        " | "
+                                        "-${product.isSalesOn == "1" ? double.parse(product.saleDis!).toStringAsFixed(2) : offPer}%",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .overline!
+                                            .copyWith(
+                                                color: colors.primary,
+                                                letterSpacing: 0)),
+                                  ),
+                                ],
+                              )
+                            : Container(
+                                height: 5,
                               ),
-                              Flexible(
-                                child: Text(
-                                    " | "
-                                    "-${product.isSalesOn == "1" ? double.parse(product.saleDis!).toStringAsFixed(2) : offPer}%",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .overline!
-                                        .copyWith(
-                                            color: colors.primary,
-                                            letterSpacing: 0)),
-                              ),
-                            ],
-                          )
-                        : Container(
-                            height: 5,
-                          ),
-                  )
+                  ),
                 ],
               ),
               onTap: () {
@@ -1473,6 +1488,7 @@ class _HomePageState extends State<HomePage>
 
   _shopByPV() {
     int tab = 0, index = 0;
+    print('noooor ${sectionList[0].productList} ${sectionList[0].style}');
     return sectionList[0].productList != null &&
             sectionList[index].productList!.isNotEmpty
         ? Container(
@@ -1515,6 +1531,7 @@ class _HomePageState extends State<HomePage>
                         MaterialPageRoute(
                           builder: (context) => SectionList(
                             index: 0,
+                            title: "Shop by PV",
                             section_model: model,
                             from: 1,
                             productList: [],
@@ -1548,6 +1565,7 @@ class _HomePageState extends State<HomePage>
 
   _shopByPVProducts() {
     var orient = MediaQuery.of(context).orientation;
+    print('noooor ${sectionList[0].productList} ${sectionList[0].style}');
     return sectionList[0].productList != null && sectionList[0].style == DEFAULT
         ? Padding(
             padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5),
@@ -1975,63 +1993,63 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  _productCard() {
-    return Card(
-      shadowColor: Colors.blueGrey[300],
-      elevation: 3,
-      child: InkWell(
-        onTap: () {},
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 120,
-                    width: MediaQuery.of(context).size.width / 2.75,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5),
-                      ),
-                      // color: Colors.blueGrey[300],
-                    ),
-                    child: Image.asset('assets/images/logo1.png'),
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 0,
-                    child: Icon(Icons.bookmark_border_outlined),
-                  )
-                ],
-              ),
-              Text(
-                '13.89 PV',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.green[600],
-                    fontWeight: FontWeight.w600),
-              ),
-              Text(
-                'Item Code: 26015A',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.green[600],
-                    fontWeight: FontWeight.w600),
-              ),
-              Text(
-                'Assure Soap 100 G',
-                style: TextStyle(fontSize: 11, color: Colors.grey[400]),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // _productCard() {
+  //   return Card(
+  //     shadowColor: Colors.blueGrey[300],
+  //     elevation: 3,
+  //     child: InkWell(
+  //       onTap: () {},
+  //       child: Padding(
+  //         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Stack(
+  //               children: [
+  //                 Container(
+  //                   height: 120,
+  //                   width: MediaQuery.of(context).size.width / 2.75,
+  //                   decoration: BoxDecoration(
+  //                     borderRadius: BorderRadius.only(
+  //                       topLeft: Radius.circular(5),
+  //                       topRight: Radius.circular(5),
+  //                     ),
+  //                     // color: Colors.blueGrey[300],
+  //                   ),
+  //                   child: Image.asset('assets/images/logo1.png'),
+  //                 ),
+  //                 Positioned(
+  //                   bottom: 5,
+  //                   right: 0,
+  //                   child: Icon(Icons.bookmark_border_outlined),
+  //                 )
+  //               ],
+  //             ),
+  //             Text(
+  //               '13.89 PV',
+  //               style: TextStyle(
+  //                   fontSize: 12,
+  //                   color: Colors.green[600],
+  //                   fontWeight: FontWeight.w600),
+  //             ),
+  //             Text(
+  //               'Item Code: 26015A',
+  //               style: TextStyle(
+  //                   fontSize: 12,
+  //                   color: Colors.green[600],
+  //                   fontWeight: FontWeight.w600),
+  //             ),
+  //             Text(
+  //               'Assure Soap 100 G',
+  //               style: TextStyle(fontSize: 11, color: Colors.grey[400]),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   _youtube() {
     return Container(
@@ -2445,7 +2463,6 @@ class _HomePageState extends State<HomePage>
       if (CUR_USERID != null) parameter[USER_ID] = CUR_USERID!;
       String curPin = context.read<UserProvider>().curPincode;
       if (curPin != '') parameter[ZIPCODE] = curPin;
-
       apiBaseHelper.postAPICall(getSectionApi, parameter).then((getdata) {
         bool error = getdata["error"];
         String? msg = getdata["message"];
@@ -3641,7 +3658,9 @@ class _HomePageState extends State<HomePage>
                                 Center(
                                   // top: ,
                                   child: ElevatedButton.icon(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, "/youtube");
+                                    },
                                     icon: Icon(
                                       Icons.video_library_rounded,
                                       color:
