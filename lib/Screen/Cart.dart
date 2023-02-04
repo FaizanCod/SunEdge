@@ -55,6 +55,8 @@ class Cart extends StatefulWidget {
 List<User> addressList = [];
 List<Promo> promoList = [];
 double totalPrice = 0, oriPrice = 0, delCharge = 0, taxPer = 0;
+int totalItems = 0;
+double totalPV = 0;
 int? selectedAddress = 0;
 String? selAddress, payMethod = '', selTime, selDate, promocode;
 bool? isTimeSlot,
@@ -178,6 +180,8 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
       return _getSaveLater("1");
     } else {
       oriPrice = 0;
+      totalItems = 0;
+      totalPV = 0;
       saveLaterList.clear();
       proIds = (await db.getCart())!;
       await _getOffCart();
@@ -189,6 +193,8 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
   clearAll() {
     totalPrice = 0;
     oriPrice = 0;
+    totalItems = 0;
+    totalPV = 0;
 
     taxPer = 0;
     delCharge = 0;
@@ -410,7 +416,10 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             cartList[index].productList![0].prVarientList![selectedPos].id!);
 
         oriPrice = (oriPrice + price);
-
+        totalItems = (int.parse(qty) + itemCounter);
+        totalPV = (
+            (int.parse(qty) + itemCounter) *
+                double.parse(cartList[index].productList![0].madein!));
         setState(() {});
       }
     } else if (from == 2) {
@@ -436,6 +445,11 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             selectedPos,
             cartList[index].productList![0].prVarientList![selectedPos].id!);
         oriPrice = (oriPrice - price);
+        totalItems = (int.parse(qty) - itemCounter);
+        totalPV = (
+            (int.parse(qty) - itemCounter) *
+                double.parse(cartList[index].productList![0].madein!));
+
         setState(() {});
       }
     } else {
@@ -447,7 +461,10 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
           selectedPos,
           cartList[index].productList![0].prVarientList![selectedPos].id!);
       oriPrice = (oriPrice - total + (int.parse(qty) * price));
-
+      totalItems = (int.parse(qty));
+      totalPV = (
+          int.parse(qty) *
+              double.parse(cartList[index].productList![0].madein!));
       setState(() {});
     }
   }
@@ -651,6 +668,19 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 3),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.green[400],
+                            ),
+                            child: Text(
+                              '${cartList[index].productList![0].madein!} PV',
+                              style: TextStyle(
+                                  color: Color(0xfff0f0f0), fontSize: 12),
+                            ),
+                          ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -703,6 +733,13 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                           item.varientId ==
                                           cartList[index].varientId);
                                       oriPrice = oriPrice - total;
+                                      totalItems = totalItems -
+                                          int.parse(cartList[index].qty!);
+                                      totalPV = totalPV -
+                                          int.parse(cartList[index].qty!) *
+                                              double.parse(cartList[index]
+                                                  .productList![0]
+                                                  .madein!);
                                       proIds = (await db.getCart())!;
 
                                       setState(() {});
@@ -765,25 +802,33 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
+                              // Text(
+                              //   double.parse(cartList[index]
+                              //               .productList![0]
+                              //               .prVarientList![selectedPos]
+                              //               .disPrice!) !=
+                              //           0
+                              //       ? getPriceFormat(
+                              //           context,
+                              //           double.parse(cartList[index]
+                              //               .productList![0]
+                              //               .prVarientList![selectedPos]
+                              //               .price!))!
+                              //       : "",
+                              //   style: Theme.of(context)
+                              //       .textTheme
+                              //       .overline!
+                              //       .copyWith(
+                              //           decoration: TextDecoration.lineThrough,
+                              //           letterSpacing: 0.7),
+                              // ),
                               Text(
-                                double.parse(cartList[index]
-                                            .productList![0]
-                                            .prVarientList![selectedPos]
-                                            .disPrice!) !=
-                                        0
-                                    ? getPriceFormat(
-                                        context,
-                                        double.parse(cartList[index]
-                                            .productList![0]
-                                            .prVarientList![selectedPos]
-                                            .price!))!
-                                    : "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .overline!
-                                    .copyWith(
-                                        decoration: TextDecoration.lineThrough,
-                                        letterSpacing: 0.7),
+                                'DP:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Colors.green[400],
+                                ),
                               ),
                               Text(
                                 cartList[index].productList![0].isSalesOn == "1"
@@ -795,10 +840,9 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                             .saleFinalPrice!))!
                                     : ' ${getPriceFormat(context, price)!} ',
                                 style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.fontColor,
+                                    color: Colors.green[400],
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 12),
+                                    fontSize: 13),
                               ),
                             ],
                           ),
@@ -2008,6 +2052,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
 
               List<Product> cartList =
                   (data as List).map((data) => Product.fromJson(data)).toList();
+
               for (int i = 0; i < cartList.length; i++) {
                 for (int j = 0; j < cartList[i].prVarientList!.length; j++) {
                   if (proIds.contains(cartList[i].prVarientList![j].id)) {
@@ -2031,10 +2076,11 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                       price =
                           double.parse(cartList[i].prVarientList![j].price!);
                     }
-
+                    int items = int.parse(qty);
                     double total = (price * int.parse(qty));
                     setState(() {
                       oriPrice = oriPrice + total;
+                      totalItems = totalItems + items;
                     });
                   }
                 }
@@ -2984,229 +3030,374 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                   children: <Widget>[
                     Expanded(
                       child: RefreshIndicator(
-                          color: colors.primary,
-                          key: _refreshIndicatorKey,
-                          onRefresh: _refresh,
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(
-                                parent: AlwaysScrollableScrollPhysics()),
-                            controller: _scrollControllerOnCartItems,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (cartList.isNotEmpty)
-                                  ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    itemCount: cartList.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return listItem(index, cartList);
-                                    },
-                                  ),
-                                if (saveLaterList.isNotEmpty)
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      getTranslated(
-                                          context, 'SAVEFORLATER_BTN')!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1!
-                                          .copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .fontColor),
-                                    ),
-                                  ),
-                                if (saveLaterList.isNotEmpty)
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: saveLaterList.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return saveLaterItem(index);
-                                    },
-                                  ),
-                                Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      if (promoList.isNotEmpty && oriPrice > 0)
-                                        Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Stack(
-                                            alignment: Alignment.centerRight,
-                                            children: [
-                                              Container(
-                                                  margin:
-                                                      const EdgeInsetsDirectional
-                                                          .only(end: 20),
-                                                  decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .white,
-                                                      borderRadius:
-                                                          BorderRadiusDirectional
-                                                              .circular(5)),
-                                                  child: TextField(
-                                                    textDirection:
-                                                        Directionality.of(
-                                                            context),
-                                                    controller: promoC,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle2,
-                                                    decoration: InputDecoration(
-                                                      contentPadding:
-                                                          const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal: 10),
-                                                      border: InputBorder.none,
-                                                      hintText: getTranslated(
-                                                              context,
-                                                              'PROMOCODE_LBL') ??
-                                                          '',
-                                                    ),
-                                                    onChanged: (val) {
-                                                      setState(() {
-                                                        if (val.isEmpty) {
-                                                          isPromoLen = false;
-
-                                                          isPromoValid = false;
-                                                          promoEmpty()
-                                                              .then((value) {
-                                                            promoAmt = 0;
-                                                          });
-                                                        } else {
-                                                          //promoAmt = 0;
-                                                          isPromoLen = true;
-                                                          isPromoValid = false;
-                                                        }
-                                                      });
-                                                    },
-                                                  )),
-                                              Positioned.directional(
-                                                textDirection:
-                                                    Directionality.of(context),
-                                                end: 0,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    if (promoC.text.isEmpty) {
-                                                      Navigator.push(
-                                                          context,
-                                                          CupertinoPageRoute(
-                                                            builder: (context) =>
-                                                                PromoCode(
-                                                                    from:
-                                                                        "cart",
-                                                                    updateParent:
-                                                                        updatePromo),
-                                                          ));
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              11),
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: colors.primary,
-                                                      ),
-                                                      child: Icon(
-                                                        Icons.arrow_forward,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .white,
-                                                      )),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      Container(
-                                          decoration: BoxDecoration(
+                        color: colors.primary,
+                        key: _refreshIndicatorKey,
+                        onRefresh: _refresh,
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          controller: _scrollControllerOnCartItems,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (cartList.isNotEmpty)
+                                ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  itemCount: cartList.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return listItem(index, cartList);
+                                  },
+                                ),
+                              if (saveLaterList.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    getTranslated(context, 'SAVEFORLATER_BTN')!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1!
+                                        .copyWith(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .white,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(5),
+                                                .fontColor),
+                                  ),
+                                ),
+                              if (saveLaterList.isNotEmpty)
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: saveLaterList.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return saveLaterItem(index);
+                                  },
+                                ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  if (promoList.isNotEmpty && oriPrice > 0)
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Stack(
+                                        alignment: Alignment.centerRight,
+                                        children: [
+                                          Container(
+                                              margin:
+                                                  const EdgeInsetsDirectional
+                                                      .only(end: 20),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .white,
+                                                  borderRadius:
+                                                      BorderRadiusDirectional
+                                                          .circular(5)),
+                                              child: TextField(
+                                                textDirection:
+                                                    Directionality.of(context),
+                                                controller: promoC,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle2,
+                                                decoration: InputDecoration(
+                                                  contentPadding:
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
+                                                  border: InputBorder.none,
+                                                  hintText: getTranslated(
+                                                          context,
+                                                          'PROMOCODE_LBL') ??
+                                                      '',
+                                                ),
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    if (val.isEmpty) {
+                                                      isPromoLen = false;
+
+                                                      isPromoValid = false;
+                                                      promoEmpty()
+                                                          .then((value) {
+                                                        promoAmt = 0;
+                                                      });
+                                                    } else {
+                                                      //promoAmt = 0;
+                                                      isPromoLen = true;
+                                                      isPromoValid = false;
+                                                    }
+                                                  });
+                                                },
+                                              )),
+                                          Positioned.directional(
+                                            textDirection:
+                                                Directionality.of(context),
+                                            end: 0,
+                                            child: InkWell(
+                                              onTap: () {
+                                                if (promoC.text.isEmpty) {
+                                                  Navigator.push(
+                                                      context,
+                                                      CupertinoPageRoute(
+                                                        builder: (context) =>
+                                                            PromoCode(
+                                                                from: "cart",
+                                                                updateParent:
+                                                                    updatePromo),
+                                                      ));
+                                                }
+                                              },
+                                              child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(11),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: colors.primary,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.arrow_forward,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .white,
+                                                  )),
                                             ),
                                           ),
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 5, vertical: 8),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 5),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              if (isPromoValid!)
-                                                if (!isPromoLen)
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        getTranslated(context,
-                                                            'PROMO_CODE_DIS_LBL')!,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .caption!
-                                                            .copyWith(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .lightBlack2),
-                                                      ),
-                                                      Text(
-                                                        '${getPriceFormat(context, promoAmt)!} ',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .caption!
-                                                            .copyWith(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .lightBlack2),
-                                                      )
-                                                    ],
-                                                  ),
+                                        ],
+                                      ),
+                                    ),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Theme.of(context).colorScheme.white,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(5),
+                                        ),
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 5),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (isPromoValid!)
+                                            if (!isPromoLen)
                                               Row(
-                                                //  mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text(getTranslated(
-                                                      context, 'TOTAL_PRICE')!),
                                                   Text(
-                                                    '${getPriceFormat(context, oriPrice)!} ',
+                                                    getTranslated(context,
+                                                        'PROMO_CODE_DIS_LBL')!,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .subtitle1!
+                                                        .caption!
                                                         .copyWith(
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .fontColor),
+                                                                .lightBlack2),
                                                   ),
+                                                  Text(
+                                                    '${getPriceFormat(context, promoAmt)!} ',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .caption!
+                                                        .copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .lightBlack2),
+                                                  )
                                                 ],
                                               ),
-                                            ],
-                                          )),
-                                    ]),
-                              ],
-                            ),
-                          )),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  //  mainAxisSize: MainAxisSize.min,
+                                                  // mainAxisAlignment:
+                                                  //     MainAxisAlignment
+                                                  //         .spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'Items (${totalItems})',
+                                                    ),
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text:
+                                                            '${getTranslated(context, 'TOTAL_PRICE')!} ',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle2!
+                                                            .copyWith(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .fontColor),
+                                                        children: <TextSpan>[
+                                                          TextSpan(
+                                                            text:
+                                                                ' ${getPriceFormat(context, oriPrice)!}',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .subtitle1!
+                                                                .copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .fontColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: 'Total PV: ',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle2!
+                                                            .copyWith(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .fontColor),
+                                                        children: [
+                                                          TextSpan(
+                                                            text:
+                                                                '${totalPV.toStringAsFixed(2)}',
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .green[400],
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text:
+                                                            'Order ${getTranslated(context, 'TOTAL_PRICE')!} ',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle2!
+                                                            .copyWith(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .fontColor),
+                                                        children: <TextSpan>[
+                                                          TextSpan(
+                                                            text:
+                                                                ' ${getPriceFormat(context, oriPrice)!}',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .subtitle1!
+                                                                .copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .fontColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).colorScheme.white,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                    ),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Total Earned PV'),
+                                            SizedBox(height: 5,),
+                                            Text(
+                                              '${totalPV.toStringAsFixed(2)}',
+                                              style: TextStyle(
+                                                color: Colors.green[400],
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Total Amount to be paid'),
+                                            SizedBox(height: 5,),
+                                            Text(
+                                              '${getPriceFormat(context, oriPrice)!}',
+                                              style: TextStyle(
+                                                color: Colors.green[400],
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.min,

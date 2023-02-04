@@ -2236,11 +2236,12 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                                   color: Colors.green[400],
                                                 ),
                                                 child: Text(
-                                                  '9.72 PV',
+                                                  '${data.madein!} PV',
                                                   style: TextStyle(
                                                       color: Color(0xfff0f0f0)),
                                                 ),
                                               ),
+                                              SizedBox(width: 20,),
                                               Icon(
                                                 Icons.star,
                                                 color: Colors.yellow[700],

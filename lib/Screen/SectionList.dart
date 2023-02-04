@@ -1680,7 +1680,7 @@ class StateSection extends State<SectionList> with TickerProviderStateMixin {
                     child: InkWell(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Expanded(
                               child: Stack(
@@ -1698,9 +1698,8 @@ class StateSection extends State<SectionList> with TickerProviderStateMixin {
                                         topRight: Radius.circular(5)),
                                     child: networkImageCommon(
                                         model.image!, width, false,
-                                        height: double.maxFinite,
-                                        width: double
-                                            .maxFinite), /*CachedNetworkImage(
+                                        height: 500,
+                                        width: 500,), /*CachedNetworkImage(
                                       imageUrl: model.image!,
                                       height: double.maxFinite,
                                       width: double.maxFinite,
@@ -2067,7 +2066,7 @@ class StateSection extends State<SectionList> with TickerProviderStateMixin {
                             ],
                           )),
                           Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                            padding: const EdgeInsets.only(left: 5.0, top: 8.0),
                             child: Row(
                               children: [
                                 RatingBarIndicator(
@@ -2118,7 +2117,9 @@ class StateSection extends State<SectionList> with TickerProviderStateMixin {
                                   style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.green[400],
-                                      fontWeight: FontWeight.bold)),
+                                      fontWeight: FontWeight.bold,
+                                      
+                                      )),
                               // double.parse(model.prVarientList![model.selVarient!]
                               //             .disPrice!) !=
                               //         0

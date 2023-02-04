@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    callApi();
+    WidgetsBinding.instance!.addPostFrameCallback((_) => callApi());
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     buttonSqueezeanimation = Tween(
@@ -163,7 +163,10 @@ class _HomePageState extends State<HomePage>
                       _slider(),
                       _catList(),
                       sectionList.isEmpty
-                          ? CircularProgressIndicator()
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: CircularProgressIndicator(),
+                            )
                           : _shopByPV(),
                       // _section(),
                       _achievers(),
@@ -1597,23 +1600,24 @@ class _HomePageState extends State<HomePage>
                     child: Row(
                       children: [
                         Flexible(
-                            flex: 3,
-                            fit: FlexFit.loose,
-                            child: SizedBox(
-                                height: orient == Orientation.portrait
-                                    ? deviceHeight! * 0.4
-                                    : deviceHeight,
-                                child: sectionList[0].productList!.length ==
-                                            1 ||
-                                        sectionList[0].productList!.length > 1
-                                    ? productItem(
-                                        0,
-                                        0,
-                                        true,
-                                        sectionList[0].productList![0],
-                                        1,
-                                        sectionList[0].productList!.length)
-                                    : Container())),
+                          flex: 3,
+                          fit: FlexFit.loose,
+                          child: SizedBox(
+                            height: orient == Orientation.portrait
+                                ? deviceHeight! * 0.4
+                                : deviceHeight,
+                            child: sectionList[0].productList!.length == 1 ||
+                                    sectionList[0].productList!.length > 1
+                                ? productItem(
+                                    0,
+                                    0,
+                                    true,
+                                    sectionList[0].productList![0],
+                                    1,
+                                    sectionList[0].productList!.length)
+                                : Container(),
+                          ),
+                        ),
                         Flexible(
                           flex: 2,
                           fit: FlexFit.loose,
@@ -1621,20 +1625,21 @@ class _HomePageState extends State<HomePage>
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                  height: orient == Orientation.portrait
-                                      ? deviceHeight! * 0.2
-                                      : deviceHeight! * 0.5,
-                                  child: sectionList[0].productList!.length ==
-                                              2 ||
-                                          sectionList[0].productList!.length > 2
-                                      ? productItem(
-                                          0,
-                                          1,
-                                          false,
-                                          sectionList[0].productList![1],
-                                          1,
-                                          sectionList[0].productList!.length)
-                                      : Container()),
+                                height: orient == Orientation.portrait
+                                    ? deviceHeight! * 0.2
+                                    : deviceHeight! * 0.5,
+                                child: sectionList[0].productList!.length ==
+                                            2 ||
+                                        sectionList[0].productList!.length > 2
+                                    ? productItem(
+                                        0,
+                                        1,
+                                        false,
+                                        sectionList[0].productList![1],
+                                        1,
+                                        sectionList[0].productList!.length)
+                                    : Container(),
+                              ),
                               SizedBox(
                                   height: orient == Orientation.portrait
                                       ? deviceHeight! * 0.2
@@ -1654,7 +1659,8 @@ class _HomePageState extends State<HomePage>
                           ),
                         ),
                       ],
-                    ))
+                    ),
+                  )
                 : Container()
             : sectionList[0].style == STYLE2
                 ? Padding(
@@ -1683,43 +1689,46 @@ class _HomePageState extends State<HomePage>
                                           sectionList[0].productList!.length)
                                       : Container()),
                               SizedBox(
-                                  height: orient == Orientation.portrait
-                                      ? deviceHeight! * 0.2
-                                      : deviceHeight! * 0.5,
-                                  child: sectionList[0].productList!.length ==
-                                              2 ||
-                                          sectionList[0].productList!.length > 2
-                                      ? productItem(
-                                          0,
-                                          1,
-                                          true,
-                                          sectionList[0].productList![1],
-                                          1,
-                                          sectionList[0].productList!.length)
-                                      : Container()),
+                                height: orient == Orientation.portrait
+                                    ? deviceHeight! * 0.2
+                                    : deviceHeight! * 0.5,
+                                child: sectionList[0].productList!.length ==
+                                            2 ||
+                                        sectionList[0].productList!.length > 2
+                                    ? productItem(
+                                        0,
+                                        1,
+                                        true,
+                                        sectionList[0].productList![1],
+                                        1,
+                                        sectionList[0].productList!.length)
+                                    : Container(),
+                              ),
                             ],
                           ),
                         ),
                         Flexible(
-                            flex: 3,
-                            fit: FlexFit.loose,
-                            child: SizedBox(
-                                height: orient == Orientation.portrait
-                                    ? deviceHeight! * 0.4
-                                    : deviceHeight,
-                                child: sectionList[0].productList!.length ==
-                                            3 ||
-                                        sectionList[0].productList!.length > 3
-                                    ? productItem(
-                                        0,
-                                        2,
-                                        false,
-                                        sectionList[0].productList![2],
-                                        1,
-                                        sectionList[0].productList!.length)
-                                    : Container())),
+                          flex: 3,
+                          fit: FlexFit.loose,
+                          child: SizedBox(
+                            height: orient == Orientation.portrait
+                                ? deviceHeight! * 0.4
+                                : deviceHeight,
+                            child: sectionList[0].productList!.length == 3 ||
+                                    sectionList[0].productList!.length > 3
+                                ? productItem(
+                                    0,
+                                    2,
+                                    false,
+                                    sectionList[0].productList![2],
+                                    1,
+                                    sectionList[0].productList!.length)
+                                : Container(),
+                          ),
+                        ),
                       ],
-                    ))
+                    ),
+                  )
                 : sectionList[0].style == STYLE3
                     ? Padding(
                         padding: const EdgeInsets.all(15.0),
@@ -1727,24 +1736,25 @@ class _HomePageState extends State<HomePage>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Flexible(
-                                flex: 1,
-                                fit: FlexFit.loose,
-                                child: SizedBox(
-                                    height: orient == Orientation.portrait
-                                        ? deviceHeight! * 0.3
-                                        : deviceHeight! * 0.6,
-                                    child: sectionList[0].productList!.length ==
-                                                1 ||
-                                            sectionList[0].productList!.length >
-                                                1
-                                        ? productItem(
-                                            0,
-                                            0,
-                                            false,
-                                            sectionList[0].productList![0],
-                                            1,
-                                            sectionList[0].productList!.length)
-                                        : Container())),
+                              flex: 1,
+                              fit: FlexFit.loose,
+                              child: SizedBox(
+                                height: orient == Orientation.portrait
+                                    ? deviceHeight! * 0.3
+                                    : deviceHeight! * 0.6,
+                                child: sectionList[0].productList!.length ==
+                                            1 ||
+                                        sectionList[0].productList!.length > 1
+                                    ? productItem(
+                                        0,
+                                        0,
+                                        false,
+                                        sectionList[0].productList![0],
+                                        1,
+                                        sectionList[0].productList!.length)
+                                    : Container(),
+                              ),
+                            ),
                             SizedBox(
                               height: orient == Orientation.portrait
                                   ? deviceHeight! * 0.2
@@ -1752,47 +1762,37 @@ class _HomePageState extends State<HomePage>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      flex: 1,
-                                      fit: FlexFit.loose,
-                                      child: sectionList[0]
-                                                      .productList!
-                                                      .length >=
-                                                  2 ||
-                                              sectionList[0]
-                                                      .productList!
-                                                      .length >
-                                                  2
-                                          ? productItem(
-                                              0,
-                                              1,
-                                              true,
-                                              sectionList[0].productList![1],
-                                              1,
-                                              sectionList[0]
-                                                  .productList!
-                                                  .length)
-                                          : Container()),
+                                    flex: 1,
+                                    fit: FlexFit.loose,
+                                    child: sectionList[0].productList!.length >=
+                                                2 ||
+                                            sectionList[0].productList!.length >
+                                                2
+                                        ? productItem(
+                                            0,
+                                            1,
+                                            true,
+                                            sectionList[0].productList![1],
+                                            1,
+                                            sectionList[0].productList!.length)
+                                        : Container(),
+                                  ),
                                   Flexible(
-                                      flex: 1,
-                                      fit: FlexFit.loose,
-                                      child: sectionList[0]
-                                                      .productList!
-                                                      .length ==
-                                                  3 ||
-                                              sectionList[0]
-                                                      .productList!
-                                                      .length >
-                                                  3
-                                          ? productItem(
-                                              0,
-                                              2,
-                                              true,
-                                              sectionList[0].productList![2],
-                                              1,
-                                              sectionList[0]
-                                                  .productList!
-                                                  .length)
-                                          : Container()),
+                                    flex: 1,
+                                    fit: FlexFit.loose,
+                                    child: sectionList[0].productList!.length ==
+                                                3 ||
+                                            sectionList[0].productList!.length >
+                                                3
+                                        ? productItem(
+                                            0,
+                                            2,
+                                            true,
+                                            sectionList[0].productList![2],
+                                            1,
+                                            sectionList[0].productList!.length)
+                                        : Container(),
+                                  ),
                                   Flexible(
                                       flex: 1,
                                       fit: FlexFit.loose,
@@ -1814,7 +1814,8 @@ class _HomePageState extends State<HomePage>
                               ),
                             ),
                           ],
-                        ))
+                        ),
+                      )
                     : sectionList[0].style == STYLE4
                         ? Padding(
                             padding: const EdgeInsets.all(15.0),
@@ -1822,30 +1823,26 @@ class _HomePageState extends State<HomePage>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Flexible(
-                                    flex: 1,
-                                    fit: FlexFit.loose,
-                                    child: SizedBox(
-                                        height: orient == Orientation.portrait
-                                            ? deviceHeight! * 0.25
-                                            : deviceHeight! * 0.5,
-                                        child: sectionList[0]
-                                                        .productList!
-                                                        .length ==
-                                                    1 ||
-                                                sectionList[0]
-                                                        .productList!
-                                                        .length >
-                                                    1
-                                            ? productItem(
-                                                0,
-                                                0,
-                                                false,
-                                                sectionList[0].productList![0],
-                                                1,
-                                                sectionList[0]
-                                                    .productList!
-                                                    .length)
-                                            : Container())),
+                                  flex: 1,
+                                  fit: FlexFit.loose,
+                                  child: SizedBox(
+                                    height: orient == Orientation.portrait
+                                        ? deviceHeight! * 0.25
+                                        : deviceHeight! * 0.5,
+                                    child: sectionList[0].productList!.length ==
+                                                1 ||
+                                            sectionList[0].productList!.length >
+                                                1
+                                        ? productItem(
+                                            0,
+                                            0,
+                                            false,
+                                            sectionList[0].productList![0],
+                                            1,
+                                            sectionList[0].productList!.length)
+                                        : Container(),
+                                  ),
+                                ),
                                 SizedBox(
                                   height: orient == Orientation.portrait
                                       ? deviceHeight! * 0.2
@@ -1853,27 +1850,27 @@ class _HomePageState extends State<HomePage>
                                   child: Row(
                                     children: [
                                       Flexible(
-                                          flex: 1,
-                                          fit: FlexFit.loose,
-                                          child: sectionList[0]
-                                                          .productList!
-                                                          .length ==
-                                                      2 ||
-                                                  sectionList[0]
-                                                          .productList!
-                                                          .length >
-                                                      2
-                                              ? productItem(
-                                                  0,
-                                                  1,
-                                                  true,
-                                                  sectionList[0]
-                                                      .productList![1],
-                                                  1,
-                                                  sectionList[0]
-                                                      .productList!
-                                                      .length)
-                                              : Container()),
+                                        flex: 1,
+                                        fit: FlexFit.loose,
+                                        child: sectionList[0]
+                                                        .productList!
+                                                        .length ==
+                                                    2 ||
+                                                sectionList[0]
+                                                        .productList!
+                                                        .length >
+                                                    2
+                                            ? productItem(
+                                                0,
+                                                1,
+                                                true,
+                                                sectionList[0].productList![1],
+                                                1,
+                                                sectionList[0]
+                                                    .productList!
+                                                    .length)
+                                            : Container(),
+                                      ),
                                       Flexible(
                                           flex: 1,
                                           fit: FlexFit.loose,
@@ -1900,32 +1897,34 @@ class _HomePageState extends State<HomePage>
                                   ),
                                 ),
                               ],
-                            ))
+                            ),
+                          )
                         : Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: GridView.count(
-                                padding:
-                                    const EdgeInsetsDirectional.only(top: 5),
-                                crossAxisCount: 2,
-                                shrinkWrap: true,
-                                childAspectRatio: 1.2,
-                                physics: const NeverScrollableScrollPhysics(),
-                                mainAxisSpacing: 0,
-                                crossAxisSpacing: 0,
-                                children: List.generate(
-                                  sectionList[0].productList!.length < 6
-                                      ? sectionList[0].productList!.length
-                                      : 6,
-                                  (index) {
-                                    return productItem(
-                                        0,
-                                        index,
-                                        index % 2 == 0 ? true : false,
-                                        sectionList[0].productList![index],
-                                        1,
-                                        sectionList[0].productList!.length);
-                                  },
-                                )));
+                              padding: const EdgeInsetsDirectional.only(top: 5),
+                              crossAxisCount: 2,
+                              shrinkWrap: true,
+                              childAspectRatio: 1.2,
+                              physics: const NeverScrollableScrollPhysics(),
+                              mainAxisSpacing: 0,
+                              crossAxisSpacing: 0,
+                              children: List.generate(
+                                sectionList[0].productList!.length < 6
+                                    ? sectionList[0].productList!.length
+                                    : 6,
+                                (index) {
+                                  return productItem(
+                                      0,
+                                      index,
+                                      index % 2 == 0 ? true : false,
+                                      sectionList[0].productList![index],
+                                      1,
+                                      sectionList[0].productList!.length);
+                                },
+                              ),
+                            ),
+                          );
   }
 
   _shopByPVHeader() {
@@ -3646,14 +3645,12 @@ class _HomePageState extends State<HomePage>
                             SizedBox(height: 8),
                             Stack(
                               children: [
-                                Expanded(
-                                  child: Divider(
-                                    color: Colors.grey[500],
-                                    thickness: 2,
-                                    height: 45,
-                                    indent: 0,
-                                    endIndent: 0,
-                                  ),
+                                Divider(
+                                  color: Colors.grey[500],
+                                  thickness: 2,
+                                  height: 45,
+                                  indent: 0,
+                                  endIndent: 0,
                                 ),
                                 Center(
                                   // top: ,

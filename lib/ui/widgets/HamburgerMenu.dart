@@ -1,4 +1,7 @@
 import 'package:eshop/Helper/HamburgerItems.dart';
+import 'package:eshop/Provider/CartProvider.dart';
+import 'package:eshop/Provider/FavoriteProvider.dart';
+import 'package:eshop/Provider/SettingProvider.dart';
 import 'package:eshop/Provider/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +56,14 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                         height: 175,
                         width: 175,
                         fit: BoxFit.fill,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            "assets/images/user.png",
+                            height: 175,
+                            width: 175,
+                            fit: BoxFit.fill,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -66,24 +77,45 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               children: [
                 ...hamburgerList
                     .map(
-                      (e) => ListTile(
-                        leading: e.icon,
-                        focusColor: colors.primary,
-                        // enabled: isEnabled,
-                        title: Text(
-                          e.title,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: textColor,
-                          ),
-                        ),
-                        horizontalTitleGap: 5,
-                        onTap: () {
-                          // isEnabled = !isEnabled;
-                          // print("HELLO");
-                          Navigator.pushNamed(context, e.route);
-                        },
-                      ),
+                      (e) => e.requireLogin && userProvider.curUserName != '' ||
+                              !e.requireLogin
+                          ? ListTile(
+                              leading: e.icon,
+                              focusColor: colors.primary,
+                              // enabled: isEnabled,
+                              title: Text(
+                                e.title,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                              ),
+                              horizontalTitleGap: 5,
+                              onTap: () async {
+                                // isEnabled = !isEnabled;
+                                // print("HELLO");
+                                if (e.route == "/logout") {
+                                  SettingProvider settingProvider =
+                                      Provider.of<SettingProvider>(context,
+                                          listen: false);
+
+                                  context
+                                      .read<FavoriteProvider>()
+                                      .setFavlist([]);
+                                  context.read<CartProvider>().setCartlist([]);
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(true);
+                                  settingProvider.clearUserSession(context);
+                                  Future.delayed(Duration.zero, () {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil('/home',
+                                            (Route<dynamic> route) => false);
+                                  });
+                                } else
+                                  Navigator.pushNamed(context, e.route);
+                              },
+                            )
+                          : SizedBox.shrink(),
                     )
                     .toList(),
                 SizedBox(

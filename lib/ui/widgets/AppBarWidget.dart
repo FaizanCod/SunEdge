@@ -110,7 +110,7 @@ getAppBar(String title, BuildContext context, {int? from}) {
               ],
             ),
             onPressed: () {
-              cartTotalClear();
+              // cartTotalClear();
               Navigator.push(
                 context,
                 CupertinoPageRoute(

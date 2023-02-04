@@ -118,7 +118,7 @@ class _HomePageState extends State<Dashboard>
                 }
                 _selBottom = index;
                 if (index == 4) {
-                  cartTotalClear();
+                  // cartTotalClear();
                 }
               });
             },

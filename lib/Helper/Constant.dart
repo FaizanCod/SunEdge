@@ -1,4 +1,4 @@
-const String appName = 'eShop';
+const String appName = 'SunEdge';
 
 const String packageName = 'com.company.eshop';
 const String androidLink = 'https://play.google.com/store/apps/details?id=';

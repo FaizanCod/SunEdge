@@ -49,7 +49,6 @@ import 'Helper/String.dart';
 import 'Provider/Theme.dart';
 import 'Provider/SettingProvider.dart';
 import 'Provider/order_provider.dart';
-import 'Screen/Dashboard.dart';
 import 'Screen/Login.dart';
 
 void main() async {

@@ -31,7 +31,7 @@ class _SignInUpAccState extends State<SignInUpAcc> {
         //   'assets/images/titleicon.svg',
         //   color: colors.primary,
         // )
-      );
+        );
   }
 
   welcomeEshopTxt() {
@@ -75,7 +75,7 @@ class _SignInUpAccState extends State<SignInUpAcc> {
   signInBtn() {
     return CupertinoButton(
       child: Container(
-          width: deviceWidth! * 0.8,
+          width: deviceWidth! * 0.35,
           height: 45,
           alignment: FractionalOffset.center,
           decoration: const BoxDecoration(
@@ -87,8 +87,10 @@ class _SignInUpAccState extends State<SignInUpAcc> {
               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: colors.whiteTemp, fontWeight: FontWeight.normal))),
       onPressed: () {
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (BuildContext context) => const Login()));
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (BuildContext context) => const Login()));
       },
     );
   }
@@ -96,11 +98,11 @@ class _SignInUpAccState extends State<SignInUpAcc> {
   createAccBtn() {
     return CupertinoButton(
       child: Container(
-          width: deviceWidth! * 0.8,
+          width: deviceWidth! * 0.45,
           height: 45,
           alignment: FractionalOffset.center,
           decoration: const BoxDecoration(
-            color: colors.primary,
+            color: Color(0xff1b7b41),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: Text(getTranslated(context, 'CREATE_ACC_LBL')!,
@@ -185,9 +187,16 @@ class _SignInUpAccState extends State<SignInUpAcc> {
                         welcomeEshopTxt(),
                         eCommerceforBusinessTxt(),
                         signInyourAccTxt(),
-                        signInBtn(),
-                        createAccBtn(),
-                        skipSignInBtn(),
+                        SizedBox(height: 500),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            signInBtn(),
+                            createAccBtn(),
+                          ],
+                        ),
+                        // skipSignInBtn(),
                       ],
                     ),
                   ),
@@ -202,9 +211,15 @@ class _SignInUpAccState extends State<SignInUpAcc> {
                       welcomeEshopTxt(),
                       eCommerceforBusinessTxt(),
                       signInyourAccTxt(),
-                      signInBtn(),
-                      createAccBtn(),
-                      skipSignInBtn(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          signInBtn(),
+                          createAccBtn(),
+                        ],
+                      ),
+                      // skipSignInBtn(),
                     ],
                   ),
                 ),
