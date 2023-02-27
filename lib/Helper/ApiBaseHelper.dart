@@ -9,6 +9,13 @@ import 'Session.dart';
 
 class ApiBaseHelper {
   Future<dynamic> postAPICall(Uri url, Map param) async {
+    // param.map((key, value) {
+    //   print("key****$key****value****$value");
+    //   if (key == "password") {
+    //     value = Uri.encodeComponent(value);
+    //   }
+    //   return MapEntry(key, value);
+    // });
     var responseJson;
     try {
       final response = await post(url,

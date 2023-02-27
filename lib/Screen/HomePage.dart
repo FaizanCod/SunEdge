@@ -3238,14 +3238,14 @@ class _HomePageState extends State<HomePage>
           'Content-Type': 'text/plain',
         },
         body:
-            '{"distributor_id": "${userProvider.curUserName}", "password": "${userProvider.pass}", "loginuser": "$loginUser", "loginpass": "$loginPass"}');
-    // password to be fetched dynamically
+            '{"distributor_id": "${userProvider.curUserName}", "password": "${userProvider.pass}", "loginuser": "$loginUser", "loginpass": "$loginPass"}'
+      ).timeout(const Duration(seconds: timeOut));
   }
 
   Widget _userDashboard() {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     return FutureBuilder(
-      future: getData(),
+      future: getData().timeout(const Duration(seconds: timeOut)),
       builder: (context, snapshot) {
         print(snapshot.toString());
         if (snapshot.hasData) {

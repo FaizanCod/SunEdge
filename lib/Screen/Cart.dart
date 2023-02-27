@@ -416,9 +416,9 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             cartList[index].productList![0].prVarientList![selectedPos].id!);
 
         oriPrice = (oriPrice + price);
-        totalItems = (int.parse(qty) + itemCounter);
-        totalPV = (
-            (int.parse(qty) + itemCounter) *
+        totalItems += (int.parse(qty) + itemCounter);
+        totalPV += 
+            ((int.parse(qty) + itemCounter) *
                 double.parse(cartList[index].productList![0].madein!));
         setState(() {});
       }
@@ -445,11 +445,10 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             selectedPos,
             cartList[index].productList![0].prVarientList![selectedPos].id!);
         oriPrice = (oriPrice - price);
-        totalItems = (int.parse(qty) - itemCounter);
-        totalPV = (
-            (int.parse(qty) - itemCounter) *
+        totalItems += (int.parse(qty) - itemCounter);
+        totalPV += 
+            ((int.parse(qty) - itemCounter) *
                 double.parse(cartList[index].productList![0].madein!));
-
         setState(() {});
       }
     } else {
@@ -462,8 +461,8 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
           cartList[index].productList![0].prVarientList![selectedPos].id!);
       oriPrice = (oriPrice - total + (int.parse(qty) * price));
       totalItems = (int.parse(qty));
-      totalPV = (
-          int.parse(qty) *
+      totalPV = 
+          (int.parse(qty) *
               double.parse(cartList[index].productList![0].madein!));
       setState(() {});
     }
@@ -474,6 +473,10 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
     for (int i = 0;
         i < cartList[index].productList![0].prVarientList!.length;
         i++) {
+          // totalItems = int.parse(cartList[index].productList![0].prVarientList![i].cartCount!);
+          // totalPV = (double.parse(cartList[index].productList![0].prVarientList![i].cartCount!) 
+          // * double.parse(cartList[index].productList![0].madein!)
+          // );
       if (cartList[index].varientId ==
           cartList[index].productList![0].prVarientList![i].id) selectedPos = i;
     }
@@ -733,13 +736,15 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                           item.varientId ==
                                           cartList[index].varientId);
                                       oriPrice = oriPrice - total;
-                                      totalItems = totalItems -
-                                          int.parse(cartList[index].qty!);
-                                      totalPV = totalPV -
-                                          int.parse(cartList[index].qty!) *
+                                      totalItems = 
+                                          int.parse(cartList[index]
+                                              .productList![0]
+                                              .prVarientList![selectedPos]
+                                              .cartCount!);
+                                      totalPV = 
+                                          (int.parse(cartList[index].qty!) *
                                               double.parse(cartList[index]
-                                                  .productList![0]
-                                                  .madein!);
+                                                  .productList![0].madein!));
                                       proIds = (await db.getCart())!;
 
                                       setState(() {});
@@ -1042,6 +1047,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                                     .isProgress ==
                                                 false) {
                                               if (CUR_USERID != null) {
+                                                print("added to cart");
                                                 addToCart(
                                                     index,
                                                     (int.parse(cartList[index]
@@ -1053,6 +1059,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                                         .toString(),
                                                     cartList);
                                               } else {
+                                                print("added QTY to cart");
                                                 addAndRemoveQty(
                                                     cartList[index]
                                                         .productList![0]
@@ -2081,6 +2088,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                     setState(() {
                       oriPrice = oriPrice + total;
                       totalItems = totalItems + items;
+                      totalPV = totalPV + (items * double.parse(cartList[i].madein!));
                     });
                   }
                 }
@@ -2254,6 +2262,9 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             _controller[index].text = qty;
             totalPrice = 0;
 
+            totalItems = int.parse(qty);
+            totalPV = int.parse(qty) * double.parse(cartList[index].productList![0].madein!);
+
             var cart = getdata["cart"];
             List<SectionModel> uptcartList = (cart as List)
                 .map((cart) => SectionModel.fromCart(cart))
@@ -2355,6 +2366,8 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             oriPrice = double.parse(data['sub_total']);
             _controller[index].text = qty;
             totalPrice = 0;
+            totalItems = int.parse(qty);
+            totalPV = int.parse(qty) * double.parse(cartList[index].productList![0].madein!);
 
             if (IS_SHIPROCKET_ON == "0") {
               if (!ISFLAT_DEL) {
@@ -2453,6 +2466,9 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
       proVarIds.remove(
           saveLaterList[index].productList![0].prVarientList![selectedPos].id!);
       oriPrice = oriPrice + total;
+      totalItems = totalItems + 1;
+      totalPV = totalPV + double.parse(
+          saveLaterList[index].productList![0].madein!);
 
       List<SectionModel> cartList = context.read<CartProvider>().cartList;
 
@@ -2669,6 +2685,10 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
               }
 
               oriPrice = double.parse(data[SUB_TOTAL]);
+
+              totalItems = int.parse(qty!);
+              totalPV = int.parse(qty) * double.parse(cartList[index].productList![0].madein!);
+
               if (IS_SHIPROCKET_ON == "0") {
                 if (!ISFLAT_DEL) {
                   if ((oriPrice) <
@@ -2791,6 +2811,9 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                 }
 
                 oriPrice = double.parse(data[SUB_TOTAL]);
+
+                totalItems = int.parse(qty!);
+                totalPV = int.parse(qty) * double.parse(cartList[index].productList![0].madein!);
                 if (IS_SHIPROCKET_ON == "0") {
                   if (!ISFLAT_DEL) {
                     if (addressList.isNotEmpty &&
@@ -3353,15 +3376,19 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text('Total Earned PV'),
-                                            SizedBox(height: 5,),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
                                             Text(
                                               '${totalPV.toStringAsFixed(2)}',
                                               style: TextStyle(
@@ -3375,10 +3402,13 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                         Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text('Total Amount to be paid'),
-                                            SizedBox(height: 5,),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
                                             Text(
                                               '${getPriceFormat(context, oriPrice)!}',
                                               style: TextStyle(
