@@ -862,34 +862,31 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
 
   _rate(Product data) {
     return data.noOfRating! != "0"
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                RatingBarIndicator(
-                  rating: double.parse(data.rating!),
-                  itemBuilder: (context, index) => const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  itemCount: 5,
-                  itemSize: 12.0,
-                  direction: Axis.horizontal,
-                ),
-                Text(
-                  " ${data.rating!}",
-                  style: Theme.of(context).textTheme.caption!.copyWith(
-                      color: Theme.of(context).colorScheme.lightBlack),
-                ),
-                Text(
-                  " | ${data.noOfRating!} ${getTranslated(context, 'RATINGS')}",
-                  style: Theme.of(context).textTheme.caption!.copyWith(
-                      color: Theme.of(context).colorScheme.lightBlack),
-                )
-              ],
+        ? Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            RatingBarIndicator(
+              rating: double.parse(data.rating!),
+              itemBuilder: (context, index) => const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              itemCount: 5,
+              itemSize: 12.0,
+              direction: Axis.horizontal,
             ),
-          )
+            Text(
+              " ${data.rating!}",
+              style: Theme.of(context).textTheme.caption!.copyWith(
+                  color: Theme.of(context).colorScheme.lightBlack),
+            ),
+            Text(
+              " | ${data.noOfRating!} ${getTranslated(context, 'RATINGS')}",
+              style: Theme.of(context).textTheme.caption!.copyWith(
+                  color: Theme.of(context).colorScheme.lightBlack),
+            )
+          ],
+        )
         : SizedBox();
   }
 
@@ -913,7 +910,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
     }
     return Consumer<FlashSaleProvider>(builder: (context, dataModel, child) {
       return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -1170,7 +1167,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
 
       return Consumer<FlashSaleProvider>(builder: (context, dataModel, child) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -1213,7 +1210,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
 
   Widget _title(Product data) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+      padding: const EdgeInsets.only(left: 14.0, right: 14.0, top: 10.0),
       child: Text(
         data.name!,
         style: Theme.of(context)
@@ -2217,10 +2214,10 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                       children: [
                                         Container(
                                           padding: EdgeInsets.only(
-                                            left: 12,
-                                            right: 12,
+                                            left: 14,
+                                            right: 14,
                                             top: 10,
-                                            bottom: 5,
+                                            // bottom: 5,
                                           ),
                                           child: Row(
                                             // mainAxisAlignment:
@@ -2306,7 +2303,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                               faqsQuesAndAns(data),
                               productList.isNotEmpty
                                   ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
                                       child: Text(
                                         getTranslated(context, 'MORE_PRODUCT')!,
                                         style: Theme.of(context)
@@ -2323,7 +2320,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                   ? Container(
                                       height: 230,
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
+                                          horizontal: 12),
                                       child: NotificationListener<
                                               ScrollNotification>(
                                           onNotification:
@@ -2744,14 +2741,17 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
   faqsQuesAndAns(Product data) {
     return Card(
       elevation: 0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _faqsQue(),
-          CUR_USERID != "" && CUR_USERID != null ? postQues(data) : SizedBox(),
-          if (faqsProductList.isNotEmpty) _allQuesBtn(data)
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _faqsQue(),
+            CUR_USERID != "" && CUR_USERID != null ? postQues(data) : SizedBox(),
+            if (faqsProductList.isNotEmpty) _allQuesBtn(data)
+          ],
+        ),
       ),
     );
   }
@@ -3601,8 +3601,8 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
   _specification(Product data) {
     Product model = data;
     return model.desc!.isNotEmpty ||
-            model.attributeList!.isNotEmpty ||
-            model.madein != "" && model.madein!.isNotEmpty
+            model.attributeList!.isNotEmpty
+            // model.madein != "" && model.madein!.isNotEmpty
         ? Card(
             elevation: 0,
             child: InkWell(
@@ -3656,14 +3656,14 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                       )
                                     : SizedBox(),
                                 _attr(data),
-                                model.madein != "" && model.madein!.isNotEmpty
-                                    ? const Divider()
-                                    : SizedBox(),
-                                _madeIn(data),
+                                // model.madein != "" && model.madein!.isNotEmpty
+                                //     ? const Divider()
+                                //     : SizedBox(),
+                                // _madeIn(data),
                               ]),
                         ))
                     : Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                        padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -3675,10 +3675,10 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                                     )
                                   : SizedBox(),
                               _attr(data),
-                              model.madein != "" && model.madein!.isNotEmpty
-                                  ? const Divider()
-                                  : SizedBox(),
-                              _madeIn(data),
+                              // model.madein != "" && model.madein!.isNotEmpty
+                              //     ? const Divider()
+                              //     : SizedBox(),
+                              // _madeIn(data),
                             ]),
                       )
               ]),
@@ -3850,7 +3850,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                         children: <Widget>[
                           Padding(
                             padding:
-                                const EdgeInsetsDirectional.only(bottom: 5.0),
+                                const EdgeInsetsDirectional.only(top: 5.0, bottom: 5.0),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5.0),
                                 child: SvgPicture.asset(
@@ -4176,10 +4176,20 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
     return model.shortDescription != "" && model.shortDescription!.isNotEmpty
         ? Padding(
             padding: const EdgeInsetsDirectional.only(
-                start: 8, end: 8, top: 8, bottom: 5),
-            child: Text(
-              model.shortDescription!,
-              style: Theme.of(context).textTheme.subtitle2,
+                start: 8, end: 8, top: 8),
+            child: Html(
+              data: model.shortDescription!,
+              // style: Theme.of(context).textTheme.subtitle2,
+              onLinkTap: (String? url, RenderContext context,
+                  Map<String, String> attributes, dom.Element? element) async {
+                if (await canLaunchUrlString(url!)) {
+                  await launchUrlString(
+                    url,
+                  );
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
             ),
           )
         : SizedBox();

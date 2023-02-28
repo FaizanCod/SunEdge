@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'dart:math';
 
-
-
 import 'package:eshop/ui/widgets/AppBtn.dart';
 import 'package:eshop/ui/widgets/SimBtn.dart';
 import 'package:eshop/ui/widgets/Slideanimation.dart';
@@ -1352,12 +1350,16 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
                                   ? Align(
                                       alignment: Alignment.topLeft,
                                       child: Container(
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
                                           color: colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(9),
                                         ),
-                                        margin: const EdgeInsets.all(5),
+                                        margin: const EdgeInsets.only(
+                                            left: 8, top: 8),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5.0, horizontal: 7.0),
                                           child: Text(
                                             model.isSalesOn == "1"
                                                 ? double.parse(model.saleDis!)
@@ -1652,77 +1654,88 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
                             ],
                           ),
                         ),
-                        Row(
-                          children: [
-                            RatingBarIndicator(
-                              rating: double.parse(model.rating!),
-                              itemBuilder: (context, index) => const Icon(
-                                Icons.star_rate_rounded,
-                                color: Colors.amber,
-                                //color: colors.primary,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                            top: 5,
+                          ),
+                          child: Row(
+                            children: [
+                              RatingBarIndicator(
+                                rating: double.parse(model.rating!),
+                                itemBuilder: (context, index) => const Icon(
+                                  Icons.star_rate_rounded,
+                                  color: Colors.amber,
+                                  //color: colors.primary,
+                                ),
+                                unratedColor: Colors.grey.withOpacity(0.5),
+                                itemCount: 5,
+                                itemSize: 12.0,
+                                direction: Axis.horizontal,
+                                itemPadding: const EdgeInsets.all(0),
                               ),
-                              unratedColor: Colors.grey.withOpacity(0.5),
-                              itemCount: 5,
-                              itemSize: 12.0,
-                              direction: Axis.horizontal,
-                              itemPadding: const EdgeInsets.all(0),
-                            ),
-                            Text(
-                              " (${model.noOfRating!})",
-                              style: Theme.of(context).textTheme.overline,
-                            )
-                          ],
+                              Text(
+                                " (${model.noOfRating!})",
+                                style: Theme.of(context).textTheme.overline,
+                              )
+                            ],
+                          ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                                model.isSalesOn == "1"
-                                    ? getPriceFormat(
-                                        context,
-                                        double.parse(model
-                                            .prVarientList![model.selVarient!]
-                                            .saleFinalPrice!))!
-                                    : '${getPriceFormat(context, price)!} ',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.fontColor,
-                                    fontWeight: FontWeight.bold)),
-                            double.parse(model.prVarientList![model.selVarient!]
-                                        .disPrice!) !=
-                                    0
-                                ? Flexible(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: Text(
-                                            double.parse(model
-                                                        .prVarientList![
-                                                            model.selVarient!]
-                                                        .disPrice!) !=
-                                                    0
-                                                ? getPriceFormat(
-                                                    context,
-                                                    double.parse(model
-                                                        .prVarientList![
-                                                            model.selVarient!]
-                                                        .price!))!
-                                                : "",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .overline!
-                                                .copyWith(
-                                                    decoration: TextDecoration
-                                                        .lineThrough,
-                                                    letterSpacing: 0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0, top: 3),
+                          child: Row(
+                            children: [
+                              Text(
+                                  model.isSalesOn == "1"
+                                      ? getPriceFormat(
+                                          context,
+                                          double.parse(model
+                                              .prVarientList![model.selVarient!]
+                                              .saleFinalPrice!))!
+                                      : '${getPriceFormat(context, price)!} ',
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .fontColor,
+                                      fontWeight: FontWeight.bold)),
+                              double.parse(model
+                                          .prVarientList![model.selVarient!]
+                                          .disPrice!) !=
+                                      0
+                                  ? Flexible(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Flexible(
+                                            child: Text(
+                                              double.parse(model
+                                                          .prVarientList![
+                                                              model.selVarient!]
+                                                          .disPrice!) !=
+                                                      0
+                                                  ? getPriceFormat(
+                                                      context,
+                                                      double.parse(model
+                                                          .prVarientList![
+                                                              model.selVarient!]
+                                                          .price!))!
+                                                  : "",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .overline!
+                                                  .copyWith(
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      letterSpacing: 0),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container()
-                          ],
+                                        ],
+                                      ),
+                                    )
+                                  : Container()
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -1789,8 +1802,7 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                              start: 5.0, bottom: 5),
+                          padding: const EdgeInsets.only(left: 10.0, bottom: 12),
                           child: Text(
                             model.name!,
                             style: Theme.of(context)

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -10,18 +9,18 @@ import '../../Screen/Product_DetailNew.dart';
 import '../../Helper/Color.dart';
 import '../styles/DesignConfig.dart';
 
-Widget productItemView(int index,List<Product> productList,BuildContext context,String from) {
+Widget productItemView(
+    int index, List<Product> productList, BuildContext context, String from) {
   if (index < productList.length) {
     String? offPer;
-    double price =
-    double.parse(productList[index].prVarientList![0].disPrice!);
+    double price = double.parse(productList[index].prVarientList![0].disPrice!);
     if (price == 0) {
       price = double.parse(productList[index].prVarientList![0].price!);
     } else {
       double off =
           double.parse(productList[index].prVarientList![0].price!) - price;
       offPer = ((off * 100) /
-          double.parse(productList[index].prVarientList![0].price!))
+              double.parse(productList[index].prVarientList![0].price!))
           .toStringAsFixed(2);
     }
 
@@ -51,15 +50,15 @@ Widget productItemView(int index,List<Product> productList,BuildContext context,
                                 topLeft: Radius.circular(5),
                                 topRight: Radius.circular(5)),
                             child: Hero(
-                              tag: "$from$index${productList[index].id}0",
-                              child:
-                              networkImageCommon(
-                                  productList[index].image!, double.maxFinite, false,
-                                  height: double.maxFinite,
-                                  width: double
-                                      .maxFinite)
+                                tag: "$from$index${productList[index].id}0",
+                                child: networkImageCommon(
+                                    productList[index].image!,
+                                    double.maxFinite,
+                                    false,
+                                    height: double.maxFinite,
+                                    width: double.maxFinite)
 
-                              /*CachedNetworkImage(
+                                /*CachedNetworkImage(
                                 imageUrl:
                                 productList[index].image!,
                                 height: double.maxFinite,
@@ -75,28 +74,29 @@ Widget productItemView(int index,List<Product> productList,BuildContext context,
                                     double.maxFinite,
                                   );}
                               ),*/
-                            ),
+                                ),
                           )),
                       offPer != null
                           ? Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: colors.red,
-                              borderRadius: BorderRadius.circular(10)),
-                          margin: const EdgeInsets.all(5),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              "$offPer%",
-                              style: const TextStyle(
-                                  color: colors.whiteTemp,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 9),
-                            ),
-                          ),
-                        ),
-                      )
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: colors.red,
+                                    borderRadius: BorderRadius.circular(9)),
+                                margin: const EdgeInsets.only(left: 8, top: 8),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5.0, horizontal: 7.0),
+                                  child: Text(
+                                    "$offPer%",
+                                    style: const TextStyle(
+                                        color: colors.whiteTemp,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 9),
+                                  ),
+                                ),
+                              ),
+                            )
                           : Container(),
                       const Divider(
                         height: 1,
@@ -105,8 +105,8 @@ Widget productItemView(int index,List<Product> productList,BuildContext context,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                    start: 5.0,
+                  padding: const EdgeInsets.only(
+                    left: 8.0,
                     top: 5,
                   ),
                   child: Row(
@@ -131,8 +131,7 @@ Widget productItemView(int index,List<Product> productList,BuildContext context,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                      start: 5.0, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(left: 10.0, top: 5, bottom: 3),
                   child: Text(
                     productList[index].name!,
                     style: TextStyle(
@@ -142,45 +141,41 @@ Widget productItemView(int index,List<Product> productList,BuildContext context,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-          Padding(
-            padding: const EdgeInsetsDirectional.only(
-                start: 5.0),
-            child: Row(
-                  children: [
-                    Text('${getPriceFormat(context, price)!} ',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.fontColor,
-                            fontWeight: FontWeight.bold)),
-                    Text(
-                      double.parse(productList[index]
-                          .prVarientList![0]
-                          .disPrice!) !=
-                          0
-                          ? getPriceFormat(
-                          context,
+                Padding(
+                    padding: const EdgeInsets.only(left: 10.0, bottom: 8),
+                    child: Row(
+                      children: [
+                        Text('${getPriceFormat(context, price)!} ',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.fontColor,
+                                fontWeight: FontWeight.bold)),
+                        Text(
                           double.parse(productList[index]
-                              .prVarientList![0]
-                              .price!))!
-                          : "",
-                      style: Theme.of(context).textTheme.overline!.copyWith(
-                          decoration: TextDecoration.lineThrough,
-                          letterSpacing: 0),
-                    ),
-                  ],
-                )),
+                                      .prVarientList![0]
+                                      .disPrice!) !=
+                                  0
+                              ? getPriceFormat(
+                                  context,
+                                  double.parse(productList[index]
+                                      .prVarientList![0]
+                                      .price!))!
+                              : "",
+                          style: Theme.of(context).textTheme.overline!.copyWith(
+                              decoration: TextDecoration.lineThrough,
+                              letterSpacing: 0),
+                        ),
+                      ],
+                    )),
               ],
             ),
             onTap: () {
               Product model = productList[index];
-              currentHero=from;
+              currentHero = from;
               Navigator.push(
                 context,
                 PageRouteBuilder(
                     pageBuilder: (_, __, ___) => ProductDetail(
-                        id: model.id!,
-                        secPos: 0,
-                        index: index,
-                        list: true)),
+                        id: model.id!, secPos: 0, index: index, list: true)),
               );
             },
           ),

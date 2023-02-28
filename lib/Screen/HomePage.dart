@@ -847,7 +847,7 @@ class _HomePageState extends State<HomePage>
         height: 150,
         child: Card(
           elevation: 5.0,
-          margin: EdgeInsets.symmetric(vertical: 3, horizontal: pad ? 8 : 0),
+          margin: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
           //end: pad ? 5 : 0),
           child: Padding(
             padding:
@@ -873,8 +873,8 @@ class _HomePageState extends State<HomePage>
                                   product.image!,
                                   width,
                                   false,
-                                  height: 90,
-                                  width: 90,
+                                  height: 100,
+                                  width: 100,
                                 ), /*CachedNetworkImage(
                                   fadeInDuration: const Duration(milliseconds: 150),
                                   imageUrl: product.image!,
@@ -897,7 +897,7 @@ class _HomePageState extends State<HomePage>
                           ),
                           Positioned(
                             top: 7,
-                            right: 10,
+                            right: 5,
                             child: Container(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
@@ -908,7 +908,7 @@ class _HomePageState extends State<HomePage>
                               child: Text(
                                 '${product.madein!} PV',
                                 style: TextStyle(
-                                    fontSize: 12, color: Color(0xfff0f0f0)),
+                                    fontSize: 10, color: Color(0xfff0f0f0)),
                               ),
                             ),
                           ),
@@ -934,15 +934,16 @@ class _HomePageState extends State<HomePage>
                   // ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.only(start: 10.0, top: 2),
+                        const EdgeInsets.only(left: 5, top: 3, right: 5),
                     child: Text(
                       product.name!,
                       style: TextStyle(fontSize: 11, color: Colors.grey[400]),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.only(start: 10.0, top: 2),
+                        const EdgeInsets.only(left: 5, top: 3, right: 5),
                     child: Text(
                       double.parse(product.prVarientList![0].disPrice!) !=
                               0 //model
@@ -956,8 +957,8 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        start: 10.0, bottom: 8, top: 2),
+                    padding:
+                        const EdgeInsets.only(left: 5, top: 3, right: 5),
                     child:
                         double.parse(product.prVarientList![0].disPrice!) != 0
                             ? Row(
@@ -1497,7 +1498,7 @@ class _HomePageState extends State<HomePage>
         ? Container(
             color: Color(0xfffdfdff),
             margin: const EdgeInsets.symmetric(vertical: 10),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Column(
               children: [
                 _shopByPVHeader(),
